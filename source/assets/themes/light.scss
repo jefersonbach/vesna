@@ -1,0 +1,9 @@
+@charset "utf-8";
+
+/* Header: Test */
+header .header-icons span.ico img,
+header .busca .btn-buscar { filter: invert(1); }
+
+main:not(.page-home) {
+    margin-top: 0;
+}

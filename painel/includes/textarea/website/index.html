@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+  
+    <link rel="stylesheet" href="http://yui.yahooapis.com/2.9.0/build/reset/reset-min.css">
+    <link rel="stylesheet" href="css/stylesheet.css">
+    <script src="../parser_rules/advanced.js" ></script>
+    <script src="../dist/wysihtml5-0.3.0.js" ></script>
+  </head>
+  <body>
+    <div id="wysihtml5-editor-toolbar">
+      <header>
+        <ul class="commands">
+          <li data-wysihtml5-command="bold" title="Make text bold (CTRL + B)" class="command"></li>
+          <li data-wysihtml5-command="italic" title="Make text italic (CTRL + I)" class="command"></li>
+          <li data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" title="Insert headline 2" class="command"></li>
+          <li data-wysihtml5-command="insertSpeech" title="Insert speech" class="command"></li>
+        </ul>
+      </header>
+    </div>
+    
+    <section>
+      <textarea id="wysihtml5-editor" spellcheck="false" wrap="off" autofocus placeholder="Enter something ...">
+
+      </textarea>
+    </section>
+    <script>
+      var editor = new wysihtml5.Editor("wysihtml5-editor", {
+        toolbar:     "wysihtml5-editor-toolbar",
+        stylesheets: ["http://yui.yahooapis.com/2.9.0/build/reset/reset-min.css", "css/editor.css"],
+        parserRules: wysihtml5ParserRules
+      });
+      
+      editor.on("load", function() {
+        var composer = editor.composer;
+        composer.selection.selectNode(editor.composer.element.querySelector("h1"));
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+
+RewriteEngine on
+RewriteBase /
+
+RewriteRule painel?\/?$ /painel/index.php
+
+# Block access to direct files .PHP
+# Allow access only to /includes/ajax files
+#RewriteCond %{THE_REQUEST} ^[A-Z]+\ /[^?\ ]*\.php[/?\ ]
+#RewriteCond %{REQUEST_URI} !/includes/ajax/
+#RewriteRule ^(.*).php$ 404 [R=301,L]
+
+#RewriteCond %{HTTPS} off
+#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?pg=$1 [QSA,L]
+
+#Header set Access-Control-Allow-Origin "*"
