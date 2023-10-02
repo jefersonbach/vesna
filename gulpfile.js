@@ -18,22 +18,13 @@ gulp.task('styles', function() {
 });
 
 // JS: Optimize, Minify and Copy to /build
-gulp.task('scripts_app', function() {
-    return gulp.src('source/app/assets/js/**/*.js')
+gulp.task('scripts', function() {
+    return gulp.src('source/assets/js/**/*.js')
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
         .pipe(concat('scripts.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('build/app/assets/js/'));
-});
-
-gulp.task('scripts_site', function() {
-    return gulp.src('source/site/assets/js/**/*.js')
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'))
-        .pipe(concat('scripts.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('build/site/assets/js/'));
 });
 
 // Images: Optimize and Copy to /build
@@ -59,18 +50,13 @@ gulp.task('copy-files', function () {
         .pipe(gulp.dest('build/'));
 });
 
-// Delete all /build
-gulp.task('clean', function() {
-    return del('build/**', {force:true});
-});
-
 // Watch: Tasks
 gulp.task('watch', function() {
+    gulp.watch('source/**/**/*.css', gulp.series('styles'));
     gulp.watch('source/**/*.scss', gulp.series('styles'));
-    gulp.watch('source/**/*.js', gulp.series('scripts_app'));
-    gulp.watch('source/**/*.js', gulp.series('scripts_site'));
+    gulp.watch('source/**/*.js', gulp.series('scripts'));
     gulp.watch('source/**/assets/images/**/*.{png,jpg}', gulp.series('images'));
     gulp.watch('source/**/*.{php,htaccess,gitignore}', gulp.series('copy-files'));
 });
 
-gulp.task('default', gulp.series('clean', gulp.parallel('styles', 'scripts_app', 'scripts_site', 'images', 'copy-files', 'watch')));
+gulp.task('default', gulp.series( 'styles','scripts', 'images', 'copy-files', 'watch'));
