@@ -85,7 +85,7 @@ if($_POST){
 			foreach($prods as $lis){
 		?>
 			<tr style="border:4px solid #fff; background:#eee; padding:10px 0 !important; ">
-				<td style="background:<? if($lis['ativo']=='Sim'){echo '#038800';}else{echo '#a80000';}?> !important; padding:0"></td>
+				<td style="background:<? if($lis['ativo']=='Nao'){echo '#a80000';}else{echo '#038800';}?> !important; padding:0"></td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px"><strong><?=$lis['nome']?></strong></div></td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px">
 				<strong>
@@ -147,7 +147,7 @@ if($_POST){
 					if(in_array($lis['id'], $pp)){
 			?>
 			<tr style="border:4px solid #fff; background:#eee; padding:10px 0 !important; ">
-				<td style="background:<? if($lis['ativo']=='Sim'){echo '#038800';}else{echo '#a80000';}?> !important; padding:0"></td>
+				<td style="background:<? if($afiliado['ativo']=='Nao'){echo '#a80000';}else{echo '#038800';}?> !important; padding:0"></td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; line-height: 16px; padding: 10px 10px 10px 40px; opacity:0.7"><strong><?=$afiliado['nome']?></strong></div></td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px">
 				<strong>
@@ -211,7 +211,7 @@ if($_POST){
 					if(in_array($afiliado['id'], $pp2)){
 			?>
 			<tr style="border:4px solid #fff; background:#eee; padding:10px 0 !important; ">
-				<td style="background:<? if($afiliado2['ativo']=='Sim'){echo '#038800';}else{echo '#a80000';}?> !important; padding:0"></td>
+			<td style="background:<? if($afiliado2['ativo']=='Nao'){echo '#a80000';}else{echo '#038800';}?> !important; padding:0"></td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; line-height: 16px; padding: 10px 10px 10px 80px; opacity:0.7"><strong><?=$afiliado2['nome']?></strong></div></td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px">
 				<strong>

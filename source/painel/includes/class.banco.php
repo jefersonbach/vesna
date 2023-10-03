@@ -1,5 +1,5 @@
 <?
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
 date_default_timezone_set('America/Sao_Paulo');
 
@@ -553,7 +553,7 @@ function clean_url($str, $delimiter='-') {
 		
 		if($numer > 0){
 			$list = array();
-			while($row = mysqli_fetch_array($query)){
+			while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)){
 				$teste = array();
 				foreach($row as $pos => $val){
 						 $teste[$pos] = $val;

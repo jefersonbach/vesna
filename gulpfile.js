@@ -24,12 +24,12 @@ gulp.task('scripts', function() {
         .pipe(jshint.reporter('default'))
         .pipe(concat('scripts.min.js'))
         .pipe(uglify())
-        .pipe(gulp.dest('build/app/assets/js/'));
+        .pipe(gulp.dest('build/assets/js/'));
 });
 
 // Images: Optimize and Copy to /build
 gulp.task('images', function() {
-    return gulp.src('source/**/assets/images/**/*.{png,jpg,svg,gif}')
+    return gulp.src('source/assets/images/**/*.{png,jpg,jpeg,svg,gif}')
         .pipe(imagemin([
             imagemin.gifsicle({interlaced: true}),
             imagemin.mozjpeg({quality: 77, progressive: true}),

@@ -36,11 +36,11 @@ if($_POST['login'] == 'Acessar minha conta'){
     unset($post['login']);
     $existe = $banco->lista('logins',"user = '".$post['user']."' and senha = '".$post['senha']."'");
     if($existe[0]['id'] and $existe != 'erro'){
-        setcookie('cliente_id', $existe[0]['id'], 0, '/', $cookie_host);
-        setcookie('cliente_nome', $existe[0]['nome'], 0, '/', $cookie_host);
-        setcookie('cliente_email', $existe[0]['email'], 0, '/', $cookie_host);
-        setcookie('cliente_usuario', $existe[0]['usuario'], 0, '/', $cookie_host);
-        setcookie('cliente_empresa', $existe[0]['empresa'], 0, '/', $cookie_host);
+        setcookie('cliente_id', $existe[0]['id'], 0, '/');
+        setcookie('cliente_nome', $existe[0]['nome'], 0, '/');
+        setcookie('cliente_email', $existe[0]['email'], 0, '/');
+        setcookie('cliente_usuario', $existe[0]['usuario'], 0, '/');
+        setcookie('cliente_empresa', $existe[0]['empresa'], 0, '/');
 
         header('location:/home');
         exit;
