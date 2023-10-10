@@ -67,7 +67,7 @@ if($_GET['de'] == ''){
             ?>
             
                 <div style=" float:left; margin: 0px 0 0px 10px; width:100%; max-width:360px; padding:0px; background:#fff; border-radius:20px; z-index:9999; transform: translateZ(42px); position:relative">
-                    <span style="line-height:30px; opacity:0.5; float:left; margin:6px 20px 5px 30px; font-size:14px; position: absolute; left:0; top:-36px">Filtrar período do relatório</span>
+                    <span style="line-height:30px; opacity:0.5; float:left; margin:6px 20px 5px 30px; font-size:14px; position: absolute; left:0; top:-36px;z-idex:9999">Filtrar período do relatório</span>
                     
 
                         <div style="margin:0px 0 0 20px">
@@ -302,12 +302,7 @@ foreach($afilia as $parcei){
                             $cols[9] = $dado['netrevenue'];
                         }
                         if($casa[0]['RevenueShareEarnings'] != ''){
-                            if($dado['revenueshareearnings'] < 0){
-                                $cols[10] = 0;
-                            }else{
-                                $cols[10] = $dado['revenueshareearnings'];
-                            }
-                            
+                            $cols[10] = $dado['revenueshareearnings'];
                         }
                         if($casa[0]['CPAQualified'] != ''){
                             $cols[11] = $dado['cpaqualified'];

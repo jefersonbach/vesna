@@ -30,7 +30,7 @@
                     Empresa
                 </a>
                 <a onclick="window.location='/minha-conta/regras'+window.location.search;" style="text-decoration:none; cursor:pointer; float:left; margin:5px 1px 0; height:45px; width: 130px;max-width:140px; opacity:0.7; background:#fff ; background-size:70% auto; border-radius: 15px 15px 0 0;<?=$stl3?>">
-                    Regras
+                    Acordos
                 </a>
                 <a  onclick="window.location='/minha-conta/links'+window.location.search;" style="text-decoration:none; cursor:pointer; float:left; margin:5px 1px 0; height:45px; width: 130px;max-width:140px; opacity:0.7; background:#fff ; background-size:70% auto; border-radius: 15px 15px 0 0;<?=$stl4?>">
                     Links Úteis
@@ -94,46 +94,47 @@
 
 
 
-                        <div class="fields-wrap" style="<? if($pgGet[0] == 'empresa'){ echo "display: block";}else{ echo "display: none";}?>">
-                            <div>
-                                <br />
-                                <h2 style="text-align:center; margin: 0px auto 0; width:100%">Informacões da empresa</h2><br />
-                                <div style="margin:0 50px 50px; max-width: 400px; padding:0 30px; width:100%; float:left">
+                        <div class="fields-wrap" style="<? if($pgGet[0] == 'empresa'){ echo "display: flex";}else{ echo "display: none";}?>">
+                        <div class="fields-wrap on boxF lbl-1-2">
+                                <div style="margin:0 auto; max-width: 500px; padding:0 30px; width:100%">
+                                    <h3>Informacões da empresa</h3><br />
                                     <h3><?=$empe[0]['nome']?></h3>
 
-                                    <div style="text-align:left; width:100%; line-height:18px; margin-top:15px ">
-                                        <span style="margin:0 auto; padding:0; line-height:14px; color:#999; font-size:14px">Responsável</span><br />
+                                    <label class="lbl lbl-1-1" style="font-size:20px">
+                                    <span style="margin:0 auto; padding:0; line-height:14px; color:#999; font-size:14px">Responsável</span>
                                        <?=$empe[0]['responsavel']?>
-                                    </div>
-                                   
-                                    <div style="text-align:left; width:100%; line-height:18px; margin-top:15px ">
-                                        <span style="margin:0 auto; padding:0; line-height:14px; color:#999; font-size:14px">Telefone</span><br />
+                                    </label>
+                                    <label class="lbl lbl-1-1" style="font-size:20px">
+                                        <span style="margin:0 auto; padding:0; line-height:14px; color:#999; font-size:14px">Telefone</span>
                                        <?=$empe[0]['telefone']?>
-                                    </div>
-                                    <div style="text-align:left; width:100%; line-height:18px; margin-top:15px ">
-                                        <span style="margin:0 auto; padding:0; line-height:14px; color:#999; font-size:14px">CNPJ</span><br />
+                                    </label>
+                                    <label class="lbl lbl-1-1" style="font-size:20px">
+                                        <span style="margin:0 auto; padding:0; line-height:14px; color:#999; font-size:14px">CNPJ</span>
                                         <?=$empe[0]['cnpj']?>
-                                    </div>
-
-                                    <div style="text-align:left; width:100%; line-height:18px; margin-top:15px ">
-                                        <span style="margin:0 auto; padding:0; line-height:14px; color:#999; font-size:14px">E-mail</span><br />
+                                    </label>
+                                    <label class="lbl lbl-1-1" style="font-size:20px">
+                                        <span style="margin:0 auto; padding:0; line-height:14px; color:#999; font-size:14px">E-mail</span>
                                         <a href="mailto:<?=$empe[0]['email']?>"><?=$empe[0]['email']?></a>
-                                    </div>
-                                    
+                                    </label>
+                                   
+
                                 </div>
-                                <div style="text-align:left; width:100%; max-width: 400px; float:left; line-height:24px; margin-top: 30px">
-                                    <div style="text-align:left; width:100%; line-height:18px; margin-top:15px">
-                                        <span style="margin:0 auto; padding:0; line-height:14px; color:#999; font-size:14px">Site</span><br />
+                            </div>
+                            <div class="fields-wrap on boxF lbl-1-2">
+                                <div style="margin:0 auto; max-width:500px; padding:0 30px">
+                                <label class="lbl lbl-1-1" style="font-size:20px">
+                                        <span style="margin:0 auto; padding:0; line-height:14px; color:#999; font-size:14px">Site</span>
                                         <a href="<?=$empe[0]['site']?>"><?=$empe[0]['site']?></a>
-                                    </div>
-                                    <div class="controle"></div>
-                                    <br />
-                                    <span style="margin:0 auto; padding:0; line-height:14px; color:#999; font-size:14px; margin-top:15px">Endereco</span>
-                                    <br />
-                                    <?=$empe[0]['rua']?>, <?=$empe[0]['numero']?><br />
-                                    <?=$empe[0]['bairro']?> <?=$empe[0]['cep']?><br />
-                                    <?=$empe[0]['cidade']?> - <?=$empe[0]['estado']?><br />
-                                    <?=$empe[0]['complemento']?>
+                                    </label>
+                                    <label class="lbl lbl-1-1" style="font-size:20px">
+                                        <span style="margin:0 auto; padding:0; line-height:14px; color:#999; font-size:14px; margin-top:15px">Endereco</span>
+                                        <br />
+                                        <?=$empe[0]['rua']?>, <?=$empe[0]['numero']?><br />
+                                        <?=$empe[0]['bairro']?> <?=$empe[0]['cep']?><br />
+                                        <?=$empe[0]['cidade']?> - <?=$empe[0]['estado']?><br />
+                                        <?=$empe[0]['complemento']?>
+                                    </label>
+                                    
                                 </div>
                                 <div class="controle"></div>
                             </div>

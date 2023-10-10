@@ -103,6 +103,7 @@ class connect extends phpThumb{
 			$banco = 'vesna'; 
 			$port = 3306;
 		}else{
+			//https://www.maisaposta.com:2083
 			$banco = 'maisapos_vesna'; 			//nome do banco
 				$Host = 'localhost';
 				$User = 'maisapos_vesna';				//usuario
