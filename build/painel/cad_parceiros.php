@@ -176,8 +176,7 @@
                                             <div class="controle">&nbsp;</div>
                                         </div>
                                     </td>
-                                    <td style="padding: 0 40px 10px"><label><strong>Identificador </strong><input type="text" class="span2" name="casa[<?=$pais['id']?>][nomeIdentificador]" value="<?=$regras[$pais['id']]['nomeIdentificador']?>" /></label></td>
-                                    <td style="padding: 0 40px 10px"><label><strong>Número da coluna com ID. </strong><input type="text" class="span1" name="casa[<?=$pais['id']?>][colunaIdentificador]" value="<?=$regras[$pais['id']]['colunaIdentificador']?>" /></label></td>
+                                    <td style="padding: 0 40px 10px"><label><strong>Identificador Único do parceiro </strong><input type="text" class="span2" name="casa[<?=$pais['id']?>][nomeIdentificador]" value="<?=$regras[$pais['id']]['nomeIdentificador']?>" /></label></td>
                                 </tr>
                             </table>
                             <div class="controle"></div>
@@ -271,7 +270,7 @@
                     <td style="padding:10px 30px !important; text-align:center" width="50%"><span class="tituTab">Empresa</span></td>
                     <td style="padding:10px 30px !important; text-align:center" width="10%"></td>
                 </tr>
-            </thead>
+            </thead> 
             
             <tbody>
             <? 

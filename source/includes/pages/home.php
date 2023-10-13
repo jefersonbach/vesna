@@ -37,6 +37,16 @@ if($_GET['de'] == ''){
 //echo '<pre>';print_r($regras);echo '</pre>';
 ?>
 
+
+<style>
+
+.tabsHome { transition: 0.2s; float:left; display: inline-block; margin: 15px 1px 0; height: 40px; width: 90px; opacity:0.85;  border-radius: 10px 10px 0 0; -webkit-filter: grayscale(100%); filter: grayscale(100%);}
+.tabsHome:hover{cursor:pointer; transition: 0.2s;  scale: 1.2; margin: 10px 11px 0;  opacity:1;  -webkit-filter: grayscale(0%); filter: grayscale(0%);}
+.tabsHome.active{transition: 0.2s;  scale: 1.2; margin: 10px 11px 0;  opacity:1;  -webkit-filter: grayscale(0%); filter: grayscale(0%);}
+
+
+</style>
+
 <div class="contentHome" style="background: #97E9C5; width:100%; min-height:500px; text-align:center">
     <div class="wrapperContent">
         <hr style="border: none; border-top:1px solid #fff; max-width:300px; margin:20px auto 10px" />
@@ -44,7 +54,7 @@ if($_GET['de'] == ''){
 
         <form action="/home/<?=$pgGet[0]?>" method="GET" style="line-height:30px">
 
-            <div style="max-width: 600px; margin:50px auto 40px;">
+            <div style="width: max-content; margin:50px auto 40px;">
             <?
                 if($af != 'erro'){
             ?>
@@ -66,7 +76,7 @@ if($_GET['de'] == ''){
       
             ?>
             
-                <div style=" float:left; margin: 0px 0 0px 10px; width:100%; max-width:360px; padding:0px; background:#fff; border-radius:20px; z-index:9999; transform: translateZ(42px); position:relative">
+                <div style=" float:left; margin: 0px 0 0px 10px; max-width:360px; padding:0px; background:#fff; border-radius:20px; z-index:9999; transform: translateZ(42px); position:relative">
                     <span style="line-height:30px; opacity:0.5; float:left; margin:6px 20px 5px 30px; font-size:14px; position: absolute; left:0; top:-36px;z-idex:9999">Filtrar período do relatório</span>
                     
 
@@ -106,20 +116,20 @@ if($_GET['de'] == ''){
         
 
 
-        <div style="background: #fff; border-radius:25px; margin: 80PX 20px 0; width: calc(100% - 40px); padding:40px 0px;  box-shadow: 0 5px 10px rgba(0,0,0,0.15), 0 10px 200px rgba(0,0,0,0.15); position: relative; transform: translateZ(42px); ">
+        <div style="background: #fff; border-radius:25px; margin: 80px 0px 0; width: calc(100% - 0px); padding:40px 0px;  box-shadow: 0 5px 10px rgba(0,0,0,0.15), 0 10px 200px rgba(0,0,0,0.15); position: relative; transform: translateZ(42px); ">
 <? $widCas = count($casasLiberadas) * 132;?>
 
-            <div style="width: <?=$widCas?>px; position: absolute; top:-50px; left: 50%; margin-left: -<?=$widCas/2?>px; height:50px;">
+            <div style="width: max-content; position: absolute; top:-50px; left: 50%; transform: translateX(-50%); height:50px;">
                 <? 
                 foreach($casasLiberadas as $casaId){
                 $cs = $banco->lista('casas', "id = '".$casaId."' and ativo != 'Nao'");
                 $wid = 100 / count($casasLiberadas);
                     foreach($cs as $casa){
                         if($casa['id'] == $pgGet[0]){
-                            $stl = "margin:0 1px; box-shadow: 0 -10px 10px rgba(0,0,0,0.15);height:60px;  transform: translateZ(-50px); background-size:85% auto; opacity:1;  -webkit-filter: grayscale(0%); filter: grayscale(0%);";
-                        }else{$stl = ' -webkit-filter: grayscale(100%); filter: grayscale(100%);background-size:65% auto;';}
+                            $stl = " active";
+                        }else{$stl = '';}
                         ?>
-                        <a  onclick="window.location='/home/<?=$casa['id']?>'+window.location.search;"  style="trasition: 0.4s;cursor:pointer; float:left; margin:5px 1px 0; height:45px; width: 130px;max-width:140px; opacity:0.7; background:#fff url(/painel/arquivos/casas/<?=$casa['img']?>) center center no-repeat;  border-radius: 15px 15px 0 0;<?=$stl?>">
+                        <a  onclick="window.location='/home/<?=$casa['id']?>'+window.location.search;" style="background:#fff url(/painel/arquivos/casas/<?=$casa['img']?>) center center no-repeat; background-size: 80% auto;" class="tabsHome<?=$stl?>" >
                             
                         </a>
                         <?
@@ -128,10 +138,11 @@ if($_GET['de'] == ''){
                 ?>
                 <div class="controle"></div>
             </div>
+<!--
 
-
-
-           
+<canvas id="myChart" width="300" height="300px" style="max-width:250px; margin:20px;"></canvas>
+ 
+           -->
             <?
 
 
@@ -194,27 +205,29 @@ foreach($afilia as $parcei){
     $regras = unserialize($ppa[0]['regras']);
 
 
+    $dePt = $_GET['de'];
+    
+    $atePt = $_GET['ate'];
 
+    if($dados == 'erro'){
+?>
+    <div style="padding:40px 20px; background: rgba(0,0,0,0.05); border-radius:10px;  max-width:700px; width:90%; margin: 10px auto;">
+        <h3 style="font-weight:300; color:#555; font-size:20px; margin:0; padding:0">
+            <?= implode('/',array_reverse(explode('-',$de)))?> até <?=implode('/',array_reverse(explode('-',$ate)))?>
+        </h3>
+        <h4 style="color:#aaa; font-size: 30px; margin:0 40px; line-height: 30px; ">
+            Nenhum resultado encontrado<br />
+        </h4>
+        <strong style="color:#888; font-size: 25px;"><?=$ppa[0]['nome']?></strong>
+    </div>
+    <br /><br />
+<?
 
-    $de = str_replace("/", "-", $_GET['de']);
-    $de = implode('-',array_reverse(explode('-',$de)));
-    $de = explode('-',$de);
-    $dePt = $de[1].'/'.$de[2].'/'.$de[0];
-    
-    
-    //$de = strtotime($de);
-    
-    $ate = str_replace("/", "-", $_GET['ate']);
-    $ate = implode('-',array_reverse(explode('-',$ate)));
-    
-    $ate = explode('-',$ate);
-    $atePt = $ate[1].'/'.$ate[2].'/'.$ate[0];
-
-    
+    }else{
 ?>
 <br />
     <h3 style="font-weight:400; color:#555; font-size:20px; margin:0; padding:0">
-        <? if($empe[0]['id'] != $ppa[0]['id']){?>Afiliado <strong><?=$ppa[0]['nome']?></strong> - <?}?>Período de <strong> <?=$dePt?> até <?=$atePt?></strong> - <strong><?=$casa[0]['nome']?></strong>
+        <? if($empe[0]['id'] != $ppa[0]['id']){?>Afiliado <strong><?=$ppa[0]['nome']?></strong> - <?}?>Período de <strong> <?= implode('/',array_reverse(explode('-',$de)))?> até <?=implode('/',array_reverse(explode('-',$ate)))?></strong> - <strong><?=$casa[0]['nome']?></strong>
     </h3>
             <table border="0" class="table">
                 <thead>
@@ -357,6 +370,11 @@ $periodo = implode('/',array_reverse(explode('-',$periodo)));
                                                     if($rgcasa['tipo'] == 'numero'){
                                                         $celula = $cols[$i] + $rgcasa['valor'];
                                                     }elseif($rgcasa['tipo'] == 'coluna'){
+                                                        if($i == 13){
+                                                            if($cols[$rgcasa['valor']] < 0){
+                                                                $cols[$rgcasa['valor']] = 0;
+                                                            }
+                                                        }
                                                         $celula = $cols[$i] + $cols[$rgcasa['valor']];
                                                         $cols[$i] = $celula;
                                                         $getValue[$i] = $celula;
@@ -413,10 +431,10 @@ $periodo = implode('/',array_reverse(explode('-',$periodo)));
 
                                                 if($rgcasa['tipo'] == 'percentual'){$tp = '%';}
                                                 if($rgcasa['mostrar'] == 'sim'){
-                                                    if($cols[$rgcasa['valor']]){
+                                                    if($rgcasa['mais'] == ''){
                                                         $most = '<span class="spanMini" style="font-size:11px; line-height:11px; display:block">('.$rgcasa['acao'].''.$cols[$rgcasa['valor']].''.$tp.')</span>'; 
                                                     }else{
-                                                        $most = '<span class="spanMini" style="font-size:11px; line-height:11px; display:block">('.$rgcasa['acao'].''.$rgcasa['valor'].' + '.$rgcasa['mais'].' - '.$tp.')</span>';
+                                                        $most = '<span class="spanMini" style="font-size:11px; line-height:11px; display:block">('.$rgcasa['acao'].''.$rgcasa['valor'].' + '.$rgcasa['mais'].''.$tp.')</span>';
                                                     }
                                                 }else{
                                                     $most = '';
@@ -426,21 +444,22 @@ $periodo = implode('/',array_reverse(explode('-',$periodo)));
                                             }
                                            
                                         }
+
+                                        echo '<td style="line-height:15px" data-label="'.$coluna[$i].'" data-coluna="'.$i.'">';
                                         if($celula == ''){
                                             $cols[$i] = round($celula + $cols[$rgcasa['valor']],2);
-                                            echo '<td style="line-height:15px" data-label="'.$coluna[$i].'" data-coluna="'.$i.'">'.str_replace('"','',$cols[$i]).'</td>';
+                                            echo str_replace('"','',$cols[$i]);
                                         }else{
                                             if(is_numeric($celula)){
                                                 $celula = round($celula,2);
                                             }
-                                            echo '<td style="line-height:15px" data-label="'.$coluna[$i].'" data-coluna="'.$i.'">'.str_replace('"','',$celula);
+                                            echo str_replace('"','',$celula);
                                             
                                             if($most){
                                                 echo $most;
                                             }
-                                            echo '</td>';
-                                            
                                         }
+                                        echo '</td>';
 
                                         if($i == 1){
                                             $totcols[1] = $cols[1] + $totcols[1];
@@ -540,7 +559,7 @@ $periodo = implode('/',array_reverse(explode('-',$periodo)));
                         <? if($casa[0]['visits']){?>
                             <td style="line-height:11px; border:none">
                                 <? if($casa[0]['Acaovisits'] != ''){?>
-                                    <h3 style="font-size:20px; line-height:20px; margin:0; padding:0"><?=number_format($totcols[2],2,',','.')?></h3>
+                                    <h3 style="font-size:20px; line-height:20px; margin:0; padding:0"><?=number_format($totcols[2],0,',','.')?></h3>
                                     <span class="spanMini" style="font-size:11px; line-height:11px">Clicks Total (<?=$casa[0]['Acaovisits']?>)</span>
                                 <? } ?>
                             </td>
@@ -613,7 +632,7 @@ $periodo = implode('/',array_reverse(explode('-',$periodo)));
                         <? if($casa[0]['CPAQualified']){?>
                             <td style="line-height:11px; border:none">
                                 <? if($casa[0]['AcaoCPAQualified'] != ''){?>
-                                    <h3 style="font-size:20px; line-height:20px; margin:0; padding:0"><?=number_format($totcols[11],2,',','.')?></h3>
+                                    <h3 style="font-size:20px; line-height:20px; margin:0; padding:0"><?=number_format($totcols[11],0,',','.')?></h3>
                                     <span class="spanMini" style="font-size:11px; line-height:11px">CPA Total (<?=$casa[0]['AcaoCPAQualified']?>)</span>
                                 <? } ?>
                             </td>
@@ -621,12 +640,15 @@ $periodo = implode('/',array_reverse(explode('-',$periodo)));
                         <? if($casa[0]['CPAEarnings']){?>
                             <td style="line-height:11px">
                                 <? if($casa[0]['AcaoCPAEarnings'] != ''){?>
-                                    <h3 style="font-size:20px; line-height:20px; margin:0; padding:0"><?=number_format($totcols[12],2,',','.')?></h3>
+                                    <h3 style="font-size:20px; line-height:20px; margin:0; padding:0"><?=number_format($totcols[12],0,',','.')?></h3>
                                     <span class="spanMini" style="font-size:11px; line-height:11px">Ganhos CPA Total(<?=$casa[0]['AcaoCPAEarnings']?>)</span>
                                 <? } ?>
                             </td>
                         <? }?>
-                        <? if($casa[0]['TotalEarnings']){?>
+                        <? if($casa[0]['TotalEarnings']){
+                            $afilia2['nome'][] = $ppa[0]['nome'];
+                            $afilia2['total'][] = number_format($totcols[13],2,',','.');
+                            ?>
                             <td style="line-height:11px">
                                 <? if($casa[0]['AcaoTotalEarnings'] != ''){?>
                                     <h3 style="font-size:20px; line-height:20px; margin:0; padding:0"><?=number_format($totcols[13],2,',','.')?></h3>
@@ -638,8 +660,9 @@ $periodo = implode('/',array_reverse(explode('-',$periodo)));
 
                 </tbody>
             </table>
-<?  
 
+<?  
+}
 } ?>
 
         </div>
@@ -650,5 +673,59 @@ $periodo = implode('/',array_reverse(explode('-',$periodo)));
     </div>
     
 </div>
+<?
+if($_GET['afiliado'] == 'todos'){
+//print_r($afilia2);
+}
+?>
 
 
+<?
+/* 
+if($_GET['afiliado'] == 'todos'){?>
+            <script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    const data = {
+        labels: [
+            <? foreach($afilia2['nome'] as $parcei){
+                echo "'".$parcei."',";
+            }?>
+        ],
+        datasets: [{
+            label: 'My First Dataset',
+            data: [
+                <? foreach($afilia2['total'] as $parceis){
+                    echo $parceis.",";
+                }?>
+            ],
+            hoverOffset: 4
+        }]
+    };
+
+
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Chart.js Doughnut Chart'
+            }
+            }
+        },
+        
+    });
+
+
+
+
+</script>
+<?}*/?>
+
+ 

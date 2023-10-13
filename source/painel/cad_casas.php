@@ -62,6 +62,24 @@ $_SESSION['caminho'] = '../../arquivos/'.$p.'/';
                         </thead>
                         <tbody>
                             <tr>
+                                <td style="padding:8px;"></td>
+                                <td style="padding:8px;">Data</td>
+                                <td style="padding:8px;"><input type="text" name="colunaData"  value="<?=$colunaData?>" class="span1" /></td>
+                                <td style="padding:8px;">
+                                <span style="font-size:11px;">Coluna com a data do relatorio</span>
+                                </td>
+                                
+                            </tr>
+                            <tr style="border-bottom:4px solid #e1e1e1">
+                                <td style="padding:8px;"></td>
+                                <td style="padding:8px;">ID. Parceiro</td>
+                                <td style="padding:8px;"><input type="text" name="colunaId"  value="<?=$colunaId?>" class="span1" /></td>
+                                <td style="padding:8px;">
+                                <span style="font-size:11px;">Coluna com o id do parceiro</span>
+                                </td>
+                                
+                            </tr>
+                            <tr>
                                 <td style="padding:8px;">1</td>
                                 <td style="padding:8px;">Campanha</td>
                                 <td style="padding:8px;"><input type="text" name="brand"  value="<?=$brand?>" class="span1" /></td>
@@ -220,15 +238,7 @@ $_SESSION['caminho'] = '../../arquivos/'.$p.'/';
                                 
                             </tr>
 
-                            <tr style="border-top:4px solid #e1e1e1">
-                                <td style="padding:8px;">14</td>
-                                <td style="padding:8px;">ID. Parceiro <br /> <span style="font-size:11px;">Coluna com o nome exato do parceiro</span></td>
-                                <td style="padding:8px;"><input type="text" name="TotalEarnings"  value="<?=$TotalEarnings?>" class="span1" /></td>
-                                <td style="padding:8px;">
-                                  
-                                </td>
-                                
-                            </tr>
+                            
                             
                         </tbody>
                     </table>

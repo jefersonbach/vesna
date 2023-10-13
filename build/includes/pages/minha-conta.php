@@ -5,34 +5,34 @@
 
         <form action="" method="GET" style="line-height:30px">
 
-        <div style="background: #fff; border-radius:25px; margin: 70px 0 0; width:100%; padding: 0px 0px 40px;  box-shadow: 0 5px 10px rgba(0,0,0,0.15), 0 10px 200px rgba(0,0,0,0.15); position: relative; transform: translateZ(42px); ">
+        <div style="background: #fff; border-radius:25px; margin: 70px 15px 0; width: calc(100% - 30px); padding: 0px 0px 40px;  box-shadow: 0 5px 10px rgba(0,0,0,0.15), 0 10px 200px rgba(0,0,0,0.15); position: relative; transform: translateZ(42px); ">
 
-        <div style="width: <?=$widCas?>px; position: absolute; top:-50px; left: 50%; margin-left: -300px; height:50px;">
+        <div style="position: absolute; width: max-content; top:-50px; left: 50%; transform: translateX(-50%); height:50px;">
                 <? 
                 
-                if($pgGet[0] == 'seus-dados'){
-                    $stl1 = "margin:0 1px; box-shadow: 0 -10px 10px rgba(0,0,0,0.15);height:60px;  transform: translateZ(-50px); background-size:80% auto; opacity:1; ";
+                if($pgGet[0] == 'seus-dados' or $pgGet[0] == ''){
+                    $stl1 = "active";
                 }
                 if($pgGet[0] == 'empresa'){
-                    $stl2 = "margin:0 1px; box-shadow: 0 -10px 10px rgba(0,0,0,0.15);height:60px;  transform: translateZ(-50px); background-size:80% auto; opacity:1; ";
+                    $stl2 = "active";
                 }
-                if($pgGet[0] == 'regras'){
-                    $stl3 = "margin:0 1px; box-shadow: 0 -10px 10px rgba(0,0,0,0.15);height:60px;  transform: translateZ(-50px); background-size:80% auto; opacity:1; ";
+                if($pgGet[0] == 'acordos'){
+                    $stl3 = "active";
                 }
                 if($pgGet[0] == 'links'){
-                    $stl4 = "margin:0 1px; box-shadow: 0 -10px 10px rgba(0,0,0,0.15);height:60px;  transform: translateZ(-50px); background-size:80% auto; opacity:1; ";
+                    $stl4 = "active";
                 }
                 ?>
-                <a onclick="window.location='/minha-conta/seus-dados'+window.location.search;" style="text-decoration:none; cursor:pointer; float:left; margin:5px 1px 0; height:45px; width: 130px;max-width:140px; opacity:0.7; background:#fff ; background-size:70% auto; border-radius: 15px 15px 0 0;<?=$stl1?>">
+                <a onclick="window.location='/minha-conta/seus-dados'+window.location.search;" class="tabs <?=$stl1?>">
                     Seus dados
                 </a>
-                <a onclick="window.location='/minha-conta/empresa'+window.location.search;" style="text-decoration:none; cursor:pointer; float:left; margin:5px 1px 0; height:45px; width: 130px;max-width:140px; opacity:0.7; background:#fff ; background-size:70% auto; border-radius: 15px 15px 0 0;<?=$stl2?>">
+                <a onclick="window.location='/minha-conta/empresa'+window.location.search;" class="tabs <?=$stl2?>">
                     Empresa
                 </a>
-                <a onclick="window.location='/minha-conta/regras'+window.location.search;" style="text-decoration:none; cursor:pointer; float:left; margin:5px 1px 0; height:45px; width: 130px;max-width:140px; opacity:0.7; background:#fff ; background-size:70% auto; border-radius: 15px 15px 0 0;<?=$stl3?>">
+                <a onclick="window.location='/minha-conta/acordos'+window.location.search;"  class="tabs <?=$stl3?>">
                     Acordos
                 </a>
-                <a  onclick="window.location='/minha-conta/links'+window.location.search;" style="text-decoration:none; cursor:pointer; float:left; margin:5px 1px 0; height:45px; width: 130px;max-width:140px; opacity:0.7; background:#fff ; background-size:70% auto; border-radius: 15px 15px 0 0;<?=$stl4?>">
+                <a  onclick="window.location='/minha-conta/links'+window.location.search;" class="tabs <?=$stl4?>">
                     Links Úteis
                 </a>
                 <div class="controle"></div>
@@ -138,18 +138,15 @@
                                 </div>
                                 <div class="controle"></div>
                             </div>
-                            
                         </div>
 
-
-
-
-                        <div class="fields-wrap" style="<? if($pgGet[0] == 'regras'){ echo "display: flex";}else{ echo "display: none";}?>">
+                        <div class="fields-wrap" style="<? if($pgGet[0] == 'acordos'){ echo "display: flex";}else{ echo "display: none";}?>">
                             <div class="fields-wrap on boxF lbl-1-1">
                                 <div style="margin:0 auto; max-width: 700px; padding:0 30px; width:100%">
                                 <br />
-                                <h2 style="text-align:center; margin: 0px auto 0; width:100%">Regras</h2><br />
+                                <h2 style="text-align:center; margin: 0px auto 0; width:100%">Acordos</h2><br />
                                     <div style="text-align:left; width:100%">
+                                        <?=$globals[0]['acordosDefault']?>
                                         <?=$empe[0]['regrasDesc']?>
                                     </div>
                                 </div>
@@ -162,6 +159,7 @@
                                 <br />
                                 <h2 style="text-align:center; margin: 0px auto 0; width:100%">Links Úteis</h2><br />
                                     <div style="text-align:left; width:100%">
+                                        <?=$globals[0]['linksDefault']?>
                                     </div>
                                 </div>
                             </div>

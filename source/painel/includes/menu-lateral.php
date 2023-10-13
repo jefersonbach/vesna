@@ -15,7 +15,7 @@
         <ul class="menu-adm nav nav-list">
         
                    
-            <? if($_SESSION['adm'] == '1'){?>
+            <? if($_SESSION['adm'] == '1' or $_SESSION['adm'] == '2'){?>
                 <li <? if(substr($_SERVER['REQUEST_URI'], 0, 15) == '/painel/seo.php'){echo 'class="active"';}?> id="config">
                     <a href="/painel/seo.php" title="Configurações">
                         <span style="float:left; font-weight:normal"> Configurações </span>

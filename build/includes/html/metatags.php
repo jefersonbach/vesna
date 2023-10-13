@@ -14,7 +14,7 @@
 <meta name="description" content="<?php echo $xdescription; ?>">
 <title><?php echo $xtitle; ?></title>
 
-
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
 
 

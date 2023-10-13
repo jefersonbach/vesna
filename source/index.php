@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 //error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING);
 header('Cache-Control: no-cache');

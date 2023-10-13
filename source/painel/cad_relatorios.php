@@ -31,8 +31,20 @@ if($_SESSION['id_ficha'] == ""){
 $_SESSION['caminho'] = '../../arquivos/relatorios/';
 
 
-if(isset($_POST)){
-    $nome = $_POST['de'].'_'.$_POST['ate'];
+if($_POST['casas']){
+
+    $casa = $rProd->lista('casas', 'id = '.$_POST['casas'].'');
+
+
+    $casa[0]['colunaData'] = $casa[0]['colunaData'] - 1;
+    if($_POST['periodo']){
+        $periodo = $_POST['periodo'];
+    }else{
+        $periodo = $data[$casa[0]['colunaData']];
+    }
+
+
+    $nome = $periodo.'_'.$casa[0]['nome'];
 	
 	$new_file_name = $rProd->clean_url($nome).'.csv';
 	
@@ -55,7 +67,7 @@ if(isset($_POST)){
 		 // Lê o conteúdo do arquivo
 
          
-         $casa = $rProd->lista('casas', 'id = '.$_POST['casas'].'');
+         
 //echo $casa[0]['brand'];
         //die;
         $casa[0]['brand'] = $casa[0]['brand'] - 1;
@@ -71,6 +83,10 @@ if(isset($_POST)){
         $casa[0]['CPAEarnings'] = $casa[0]['CPAEarnings'] - 1;
         $casa[0]['TotalEarnings'] = $casa[0]['TotalEarnings'] - 1;
         //$casa[0]['TotalEarnings'] = $casa[0]['TotalEarnings'] - 1;
+
+        $casa[0]['colunaId'] = $casa[0]['colunaId'] - 1;
+       
+        
 
 		 while(!feof($arquivo)){
             //echo '<br />'; echo '<br />';
@@ -89,7 +105,7 @@ echo '</pre>';
 
                 //echo "<p>------------". $data[0]." asd campos na linha $row: <br /></p>\n";
 
-                $periodo = $_POST['periodo'];
+              
 
                 $periodo = str_replace("/", "-", $periodo);
 $periodo = implode('-',array_reverse(explode('-',$periodo)));
@@ -99,10 +115,41 @@ $periodoTime = strtotime($periodo);
                 //echo '<h3>'.$_POST['de'].' - '.$_POST['ate'].'</h3>';
                 //echo '<h3>--------- '.$periodo.' - '.$periodoTime.'</h3>';
 
-                $pp['empresa'] = $_POST['empresa'];
+                
+
+
+                $pp['idParceiro'] = $data[$casa[0]['colunaId']];
+
+
+
+                
+                $prodsa = $rProd->lista('parceiros','','','nome asc');
+                foreach($prodsa as $pais){
+                    $reg = unserialize($pais['regras']);
+
+                    foreach($reg as $idPart){
+                       
+
+                        if($idPart['nomeIdentificador'] == $pp['idParceiro']){
+                            
+                            $pp['empresa'] = $pais['id'];
+
+                        }
+                    }
+                    
+
+                   
+                } 
+            
+
+               //echo '<pre>';
+                //print_r($idPart);
+               // echo '</pre>';
+
+                
                 $pp['casa'] = $_POST['casas'];
-                $pp['periodoTime'] = $periodo;
-                $pp['periodo'] = $periodo;
+                $pp['periodoTime'] = $data[$casa[0]['colunaData']];
+                $pp['periodo'] = $data[$casa[0]['colunaData']];
 
                 $pp['brand'] = $data[$casa[0]['brand']];
                 $pp['visits'] = $data[$casa[0]['visits']];
@@ -117,9 +164,19 @@ $periodoTime = strtotime($periodo);
                 $pp['CPAQualified'] = $data[$casa[0]['CPAQualified']];
                 $pp['CPAEarnings'] = $data[$casa[0]['CPAEarnings']];
                 $pp['TotalEarnings'] = $data[$casa[0]['TotalEarnings']];
+
+                
+                $pp['colData'] = $data[$casa[0]['colunaData']];
+
                 $row++;
+
+                echo '<pre>'; print_r($pp); echo '</pre>';
                 //print_r($pp);
-                $grava = $rProd->cadastros($pp, 'relatorios');
+
+//die;
+
+
+                echo $grava = $rProd->cadastro($pp, 'relatorios');
 /* 
                 $antigos = $rProd->lista('relatorios', "empresa = '".$_POST['empresa']."' and deTime >= '".$deTime."' and ateTime <= '".$ateTime."'");
                 $excluidos = 0;
@@ -141,18 +198,22 @@ $periodoTime = strtotime($periodo);
             }
            
                 if($grava == 'sim'){
-                    $parc['id'] = $_POST['empresa'];
+                    $parc['id'] = $pp['empresa'];
                     $parc['atualizado'] = date("Y-m-d H:i:s");
                     $rProd->cadastro($parc, 'parceiros');
                     echo 'SALVO COM SUCESSO';
                 }
-
-            die;
+               
+                die;
 
 	 	// Fecha arquivo aberto
-	 	fclose($arquivo);
+         fclose($arquivo);
+        
+	 	
 	}
+    
 }
+
 }
 
 
@@ -193,7 +254,7 @@ $periodoTime = strtotime($periodo);
                         </select>
                    	</label>
                     <div class="controle">&nbsp;</div>
-
+<!--
                     <label>
            				<strong>Empresa</strong>
                     	<select name="empresa">
@@ -213,7 +274,7 @@ $periodoTime = strtotime($periodo);
                     <label><strong>Período</strong></label>    
                     <label><input type="text" class="span2" name="periodo" value="<?=$periodo?>" placeholder="10/05/2023" /></label>           
                     
-                    
+                    -->
                     
                 </div>
             </div>

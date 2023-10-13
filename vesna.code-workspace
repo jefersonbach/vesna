@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"name": "vesna",
+			"path": "."
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true,
+		"php.suggest.basic": true,
+		"php.validate.enable": true,
+		"php.validate.executablePath": "/Applications/MAMP/bin/php/php7.4.33/bin/php"
+	}
+}
