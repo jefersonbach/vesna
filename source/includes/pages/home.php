@@ -1,142 +1,91 @@
 <?
-if($_COOKIE['cliente_nome'] == 'Vesna'){
-    $af = $banco->lista('parceiros');
-
-}else{
-    $af = $banco->lista('parceiros', "pai = '".$empe[0]['id']."' and ativo != 'Nao'");
-
-}
-
-$parceiroMaster = $banco->lista('parceiros', "id = '".$_COOKIE['cliente_id']."'");
-
-$parceiro = $empe[0];
-
-$regras = unserialize($parceiro['regras']);
-
-foreach($regras as $key => $casas){
-    if($casas['mostrarCasa'] != 'Nao'){
-        $casasLiberadas[] = $key;
+    if($_COOKIE['cliente_nome'] == 'Vesna'){
+        $af = $banco->lista('parceiros');
+    }else{
+        $af = $banco->lista('parceiros', "pai = '".$empe[0]['id']."' and ativo != 'Nao'");
     }
-}
+    $parceiroMaster = $banco->lista('parceiros', "id = '".$_COOKIE['cliente_id']."'");
+    $parceiro = $empe[0];
+    $regras = unserialize($parceiro['regras']);
 
-if($pgGet[0] == ''){
-    $pgGet[0] = $casasLiberadas[0];
-}
+    foreach($regras as $key => $casas){
+        if($casas['mostrarCasa'] != 'Nao'){
+            $casasLiberadas[] = $key;
+        }
+    }
+    $widCas = count($casasLiberadas) * 103;
 
+    if($pgGet[0] == ''){
+        $pgGet[0] = $casasLiberadas[0];
+    }
 
-if($_GET['de'] == ''){
-    $hj=strtotime('now');
-    $lm=strtotime("-29 Days");
-    $_GET['de'] = date("m/d/Y", $lm);
-    $_GET['ate'] = date("m/d/Y", $hj);
-}
-
-
-//echo '<pre>';print_r($casasLiberadas);echo '</pre>';
-
-//echo '<pre>';print_r($regras);echo '</pre>';
+    if($_GET['de'] == ''){
+        $hj=strtotime('now');
+        $lm=strtotime("-29 Days");
+        $_GET['de'] = date("m/d/Y", $lm);
+        $_GET['ate'] = date("m/d/Y", $hj);
+    }
 ?>
-
-
-<style>
-
-.tabsHome { transition: 0.2s; float:left; display: inline-block; margin: 15px 1px 0; height: 40px; width: 90px; opacity:0.85;  border-radius: 10px 10px 0 0; -webkit-filter: grayscale(100%); filter: grayscale(100%);}
-.tabsHome:hover{cursor:pointer; transition: 0.2s;  scale: 1.2; margin: 10px 11px 0;  opacity:1;  -webkit-filter: grayscale(0%); filter: grayscale(0%);}
-.tabsHome.active{transition: 0.2s;  scale: 1.2; margin: 10px 11px 0;  opacity:1;  -webkit-filter: grayscale(0%); filter: grayscale(0%);}
-
-
-</style>
-
 <div class="contentHome" style="background: #97E9C5; width:100%; min-height:500px; text-align:center">
     <div class="wrapperContent">
-        <hr style="border: none; border-top:1px solid #fff; max-width:300px; margin:20px auto 10px" />
+        <hr style="border: none; border-top:1px solid #fff; max-width: 250px; margin: 0px auto 10px; overflow: visible;" />
+        <form action="/home/<?=$pgGet[0]?>" method="GET" style="line-height:30px; overflow: visible;">
+            <div style="width: calc(100% - 30px); max-width:630px; margin:50px auto 40px; overflow: visible;">
+            <?  if($af != 'erro'){?>
+                <div class="wrapInputSearch">
+                    <span class="label">Afiliados</span>
+                    <select name="afiliado" style="background: none;  width:220px;  border:none; padding: 8px 10px; margin:0 20px 0 10px">
+                        <option value="meu" <? if($_GET['afiliado'] == 'meu'){ echo 'selected';}?> >Meu Relatório</option>
+                        <option value="todos" <? if($_GET['afiliado'] == 'todos'){ echo 'selected';}?>>Todos</option>
+                        <? foreach($af as $afiliado){?>
+                                <option value="<?=$afiliado['clean_url']?>" <? if($_GET['afiliado'] == $afiliado['clean_url']){ echo 'selected';}?>><?=$afiliado['nome']?></option>
+                        <? } ?>
+                    </select>
+                </div>
+            <? } ?>
 
-
-        <form action="/home/<?=$pgGet[0]?>" method="GET" style="line-height:30px">
-
-            <div style="width: max-content; margin:50px auto 40px;">
-            <?
-                if($af != 'erro'){
-            ?>
-            <div style=" float:left; margin: 0px 0px 0px 0;  padding:5px 15px;  background:#fff; border-radius:25px; z-index:9999; transform: translateZ(42px); position:relative">
-                <span style="line-height:30px; opacity:0.5; float:left; margin:6px 20px 5px 20px; font-size:14px; position: absolute; left:0; top:-36px">Afiliados</span>
-                <select name="afiliado" style="background:#fff;  min-width:100px;  border:none">
-                    <option value="meu" <? if($_GET['afiliado'] == 'meu'){ echo 'selected';}?> >Meu Relatório</option>
-                    <option value="todos" <? if($_GET['afiliado'] == 'todos'){ echo 'selected';}?>>Todos</option>
-                    <?
-                        foreach($af as $afiliado){?>
-                            <option value="<?=$afiliado['clean_url']?>" <? if($_GET['afiliado'] == $afiliado['clean_url']){ echo 'selected';}?>><?=$afiliado['nome']?></option>
-                        <?
-                        }
-                    ?>
-                </select>
-            </div>
-
-            <? } 
-      
-            ?>
-            
-                <div style=" float:left; margin: 0px 0 0px 10px; max-width:360px; padding:0px; background:#fff; border-radius:20px; z-index:9999; transform: translateZ(42px); position:relative">
-                    <span style="line-height:30px; opacity:0.5; float:left; margin:6px 20px 5px 30px; font-size:14px; position: absolute; left:0; top:-36px;z-idex:9999">Filtrar período do relatório</span>
-                    
-
-                        <div style="margin:0px 0 0 20px">
-                            <div id="reportrange" style="cursor: pointer; padding: 5px 0; border: 0px solid #ccc; width: 240px; margin:0; float:left">
-                                <i class="fa fa-calendar"></i>&nbsp;
-                                <span></span> <i class="fa fa-caret-down"></i>
-                            </div>
-                            <input type="hidden" name="de" value="<?=$_GET['de']?>" id="de" placeholder="02/02/2023" class="input" style="display:none" />
-                            <input type="hidden" name="ate" value="<?=$_GET['ate']?>" id="ate" placeholder="02/02/2023" class="input" style="display:none" />
-
-                            <input type="hidden" name="de2" value="<?=$_GET['de']?>" id="de2" placeholder="02/02/2023" class="input" style="display:none" />
-                            <input type="hidden" name="ate2" value="<?=$_GET['ate']?>" id="ate2" placeholder="02/02/2023" class="input" style="display:none" />
-
-                        <!-- 
-                            <label for="">
-                                <strong>De</strong>
-                                <input type="text" name="de" value="<?=$_GET['de']?>" placeholder="02/02/2023" class="input" style="width:100px" />
-                            </label>
-                            <label for="">
-                                <strong>Até</strong>
-                                <input type="text" name="ate" value="<?=$_GET['ate']?>" placeholder="02/02/2023" class="input" style="width:100px" />
-                            </label>
-
-                        -->
-                            <div class="btn-wrap" style="width:80px; float:right; margin:0">
-                                <input type="submit" value="Filtrar" class="btn-form btn-login" style="padding: 12px 20px 11px 10px; font-size: 10px; margin:0; border-radius:0 20px 20px 0" />
-                            </div>
-                            <div class="controle"></div>
+                <div class="wrapInputSearch">
+                    <span class="label">Filtrar período do relatório</span>
+                    <div style="margin:0px 0 0 20px;  overflow: visible;">
+                        <div id="reportrange" style="cursor: pointer; padding: 5px 0; border: 0px solid #ccc; width: calc(100% - 80px); min-width: 240px;margin:0 auto; float:left">
+                            <i class="fa fa-calendar"></i>&nbsp;
+                            <span></span> <i class="fa fa-caret-down"></i>
                         </div>
-                    
+                        <input type="hidden" name="de" value="<?=$_GET['de']?>" id="de" placeholder="02/02/2023" class="input" style="display:none" />
+                        <input type="hidden" name="ate" value="<?=$_GET['ate']?>" id="ate" placeholder="02/02/2023" class="input" style="display:none" />
+
+                        <input type="hidden" name="de2" value="<?=$_GET['de']?>" id="de2" placeholder="02/02/2023" class="input" style="display:none" />
+                        <input type="hidden" name="ate2" value="<?=$_GET['ate']?>" id="ate2" placeholder="02/02/2023" class="input" style="display:none" />
+
+                        <div class="btn-wrap" style="width:80px; float:right; margin:0">
+                            <input type="submit" value="Filtrar" class="btn-form btn-login" style="padding: 12px 20px 11px 10px; font-size: 10px; margin:0; border-radius:0 20px 20px 0" />
+                        </div>
+                        <div class="controle"></div>
+                    </div>
                 </div>
                 <div class="controle"></div>
             </div>
         </form>
 
-        
-
-
-        <div style="background: #fff; border-radius:25px; margin: 80px 0px 0; width: calc(100% - 0px); padding:40px 0px;  box-shadow: 0 5px 10px rgba(0,0,0,0.15), 0 10px 200px rgba(0,0,0,0.15); position: relative; transform: translateZ(42px); ">
-<? $widCas = count($casasLiberadas) * 132;?>
-
-            <div style="width: max-content; position: absolute; top:-50px; left: 50%; transform: translateX(-50%); height:50px;">
-                <? 
-                foreach($casasLiberadas as $casaId){
-                $cs = $banco->lista('casas', "id = '".$casaId."' and ativo != 'Nao'");
-                $wid = 100 / count($casasLiberadas);
-                    foreach($cs as $casa){
-                        if($casa['id'] == $pgGet[0]){
-                            $stl = " active";
-                        }else{$stl = '';}
+        <div style="background: #fff; border-radius:25px; margin: 80px 10px 0; max-width: calc(100% - 20px); padding:40px 0px;  box-shadow: 0 5px 10px rgba(0,0,0,0.15), 0 10px 200px rgba(0,0,0,0.15); position: relative;">
+            <div style="height: 50px; overflow: hidden; width:90%; margin: 0 5%; position: absolute; top:-45px; left: 0; ">
+                <div style="overflow-x: scroll; overflow-y: hidden; height: 70px;">
+                    <div style="width: <?=$widCas?>px; margin:0 auto;  height: 50px;">
+                        <? 
+                        foreach($casasLiberadas as $casaId){
+                            $cs = $banco->lista('casas', "id = '".$casaId."' and ativo != 'Nao'");
+                            foreach($cs as $casa){
+                                $stl = '';
+                                if($casa['id'] == $pgGet[0]){$stl = " active";}
+                                ?>
+                                <a  onclick="window.location='/home/<?=$casa['id']?>'+window.location.search;" style="background:#fff url(/painel/arquivos/casas/<?=$casa['img']?>) center center no-repeat; background-size: 80% auto;" class="tabsHome<?=$stl?>" ></a>
+                                <?
+                            }
+                        }
                         ?>
-                        <a  onclick="window.location='/home/<?=$casa['id']?>'+window.location.search;" style="background:#fff url(/painel/arquivos/casas/<?=$casa['img']?>) center center no-repeat; background-size: 80% auto;" class="tabsHome<?=$stl?>" >
-                            
-                        </a>
-                        <?
-                    }
-                }
-                ?>
-                <div class="controle"></div>
+                        <div class="controle"></div>
+                    </div>
+                </div>
             </div>
 <!--
 

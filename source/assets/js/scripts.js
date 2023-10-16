@@ -67,7 +67,7 @@ $(document).ready(function(){
         "startDate": start.format('DD/MM/YYYY'),
         "endDate": end.format('DD/MM/YYYY'),
         "opens": "center",
-        "drops": "auto"
+        "drops": "down"
         }, function(start, end, label) {
             cb(start, end);      
             console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');

@@ -17,11 +17,10 @@
 
             <a href="mailto:partners@vesnapubli.com?subject=Esqueci minha senha!&body=Gostaria de recuperar a minha senha." style="font-size:12px; text-decoration:none">Esqueceu sua senha?</a>
         </div>
-        <br />
 
-        <div class="btn-wrap" style="max-width:350px; text-align:center; margin: 30px auto; flex-direction:column" >
-            <p style="color:#222; font-size: 16px; line-height:20px; display:block"> Ainda não tem acesso? Envie seus dados abaixo que entraremos em contato.</p>
-            <a href="/criar-conta" class="btn-form btn-login" style="text-decoration: none;max-width:250px; float:none">Criar conta</a>
+
+        <div class="btn-wrap">
+            <a href="/criar-conta" class="btn-form btn-login" style="max-width:250px; text-decoration: none;">Criar conta</a>
         </div>
 
     </div>
