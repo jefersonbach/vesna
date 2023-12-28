@@ -42,7 +42,7 @@ if($_POST['login'] == 'Acessar minha conta'){
         setcookie('cliente_usuario', $existe[0]['usuario'], 0, '/');
         setcookie('cliente_empresa', $existe[0]['empresa'], 0, '/');
 
-        header('location:/home');
+        header('location:/dashboard');
         exit;
     }else{
         $alerta['titulo'] = 'Essa conta já existe';
@@ -73,11 +73,15 @@ if($_POST['login'] == 'Acessar minha conta'){
 if($pag == 'login'){
     if($retorno[1] == 'sair'){
         setcookie(md5('cliente_id'), null, -1, '/', '/'.$cookie_host);
+        setcookie(md5('cliente_usuario'), null, -1, '/', '/'.$cookie_host);
+        setcookie(md5('cliente_empresa'), null, -1, '/', '/'.$cookie_host);
         setcookie(md5('cliente_nome'), null, -1, '/', '/'.$cookie_host);
         setcookie(md5('cliente_email'), null, -1, '/', '/'.$cookie_host);
         unset($_COOKIE[md5('cliente_id')]);
         unset($_COOKIE[md5('cliente_nome')]);
         unset($_COOKIE[md5('cliente_email')]);
+        unset($_COOKIE[md5('cliente_empresa')]);
+        unset($_COOKIE[md5('cliente_usuario')]);
         $cliente = '';
         header('location:/login');
         exit;
@@ -90,8 +94,8 @@ if($pag == 'login'){
 }else{
 
     if($_COOKIE['cliente_id'] == ''){
-        //header('location:/login');
-        //exit;
+        header('location:/login');
+        exit;
     }
 }
 

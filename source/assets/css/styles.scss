@@ -184,12 +184,36 @@ a:hover {
   }
 }
 
-
+pre{overflow: scroll; margin:0; text-align:left;font-size:9px; line-height:10px; position:fixed; right:0; top:0; z-index:9999; height:100%; width:300px; background: rgba(255,255,255,0.7)}
 
 .tabsHome { transition: 0.15s; float:left; display: inline-block; margin: 15px 1px 0; height: 40px; width: 95px; opacity:0.85;  border-radius: 10px 10px 0 0; -webkit-filter: grayscale(100%); filter: grayscale(100%);}
 .tabsHome:hover{cursor:pointer; transition: 0.15s;  scale: 1.2; margin: 10px 11px 0;  opacity:1;  -webkit-filter: grayscale(0%); filter: grayscale(0%);}
 .tabsHome.active{transition: 0.2s;  scale: 1.2; margin: 10px 11px 0;  opacity:1;  -webkit-filter: grayscale(0%); filter: grayscale(0%);}
 
+
+.boxDash{min-width: 160px;text-align:center; flex:1 0 auto; align-self: flex-start; max-width: 300px; margin: 10px 0 0 10px; border-radius:12px; padding: 29px 10px; vertical-align: middle; text-align: center; background:rgba(0,0,0,0.04); line-height:13px;
+  span{font: 400 12px/12px var(--font-family); color:#777; margin:0 auto; display:inline-block;}
+  span.spanMini{font: 300 11px/11px var(--font-family); color:#444; margin:0 auto}
+  h3{font: 600 40px/40px var(--font-family); margin:0; padding:0; letter-spacing: -2px; opacity: 0.7;}
+}
+
+.boxDash-2-5{min-width:350px;text-align:center; flex:1 0 auto;align-self: flex-start; margin: 10px 5px; width: calc(40% - 10px); aspect-ratio: 1; border-radius:12px; padding: 30px 0; vertical-align: middle; text-align: center; background:rgba(0,0,0,0.04); line-height:13px;
+  span{font: 600 13px/13px var(--font-family); color:#999; margin:0 auto}
+  span.spanMini{font: 400 12px/12px var(--font-family); color:#999; margin:0 auto}
+  h3{font: 500 55px/55px var(--font-family); margin:0; padding:0; letter-spacing: -2px;}
+}
+
+.contentSmalls{flex:1 0 auto; display: flex; flex-wrap: wrap; max-width: calc(40% - 10px)}
+
+
+.boxDashFull{min-width:350px;text-align:center; flex:1 0 auto; max-width: calc(60% - 10px); margin: 10px 5px; width: 100%; border-radius:12px; padding: 30px 20px; line-height:13px;background:rgba(0,0,0,0.04);
+
+
+  .myChartBars{height:300px}
+  span{font: 600 13px/13px var(--font-family); color:#999; margin:0 auto}
+  span.spanMini{font: 400 12px/12px var(--font-family); color:#999; margin:0 auto}
+  h3{font: 500 65px/65px var(--font-family); margin:0; padding:0}
+}
 
 
 .wrapInputSearch {
@@ -327,6 +351,7 @@ header .header-titulo {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-width: calc(100% - 290px);
 }
 header .header-titulo .titulo {
   display: block;
@@ -475,10 +500,12 @@ header .header-icons p a {
   text-decoration: none;
   text-align: center;
   display: inline-block;
-  font-size: 12px;
+  font-size: 11px;
   margin-left: 10px;
-  padding: 10px 20px;
-  border-radius: 15px;
+  padding: 10px 0px;
+  width: 90px;
+  aspect-ratio: 1;
+  border-radius: 12px;
   background: rgba(0, 0, 0, 0.1);
 }
 .aIco:hover {
@@ -2045,6 +2072,7 @@ label {
   max-width: 1280px;
   width: 95%;
   display: inline-block;
+  padding:30px 30px; 
 }
 
 .logohome h1 {
@@ -2052,6 +2080,20 @@ label {
 }
 
 @media screen and (max-width: 980px) {
+
+  .contentSmalls{flex:1 0 auto; display: flex; flex-wrap: wrap; max-width: calc(50% - 0px)}
+
+
+.boxDash-2-5{min-width: 290px;text-align:center; margin: 5px; width: calc(50% - 10px); border-radius:12px; padding: 30px 0; vertical-align: middle; text-align: center; background:rgba(0,0,0,0.04); line-height:13px;
+  span{font: 600 13px/13px var(--font-family); color:#999; margin:0 auto}
+  span.spanMini{font: 400 12px/12px var(--font-family); color:#999; margin:0 auto}
+  h3{font: 500 55px/55px var(--font-family); margin:0; padding:0; letter-spacing: -2px;}
+}
+.boxDash{min-width: calc(25% - 10px); margin: 5px;
+  h3{font: 500 40px/40px var(--font-family); margin:0; padding:0; letter-spacing: -2px;}
+}
+.boxDashFull{min-width: calc(100% - 20px); margin:10px}
+
   .logohome h1 {
     font-size: 10px;
   }
@@ -2059,6 +2101,7 @@ label {
     margin: 90px auto 100px;
     max-width: 1280px;
     width: 100%;
+    padding: 15px 15px; 
     display: inline-block;
   }
   .logohome {
@@ -2080,7 +2123,7 @@ label {
 
   header .header-titulo {
     width: 100%;
-    max-width: calc(100% - 220px);
+    max-width: calc(100% - 350px);
     text-align: center;
     margin: 0 auto;
     padding: 0;
@@ -2527,6 +2570,13 @@ label {
 }
 
 @media screen and (max-width: 768px) {
+
+
+  .contentSmalls{flex:1 0 auto; display: flex; flex-wrap: wrap; max-width: calc(100% - 0px)}
+
+  .boxDash{min-width: calc(25% - 10px); margin: 0 5px 5px;
+    h3{font: 500 40px/40px var(--font-family); margin:0; padding:0; letter-spacing: -2px;}
+  }
   .wrapInputSearch {
     float: none;
     margin: 30px 0px 0px 0;
@@ -2543,6 +2593,9 @@ label {
   .mobileHidden {
     display: none;
   }
+
+  .aIco{width:68px}
+
   //header .logotipo{padding:19px 0}
   .wrap {
     padding: 0 16px;
@@ -2592,6 +2645,7 @@ label {
     max-width: 100%;
   }
 
+
   .loja-item,
   .produtos-countbox-wrap .loja-item,
   .loja-categoria-wrap section.loja-categoria .loja-item {
@@ -2602,6 +2656,26 @@ label {
 }
 
 @media screen and (max-width: 520px) {
+
+
+
+
+  .contentSmalls{flex:1 0 auto; display: flex; flex-wrap: wrap; max-width: calc(100% - 0px)}
+
+
+
+  .boxDash-2-5{min-width: calc(100% - 10px);text-align:center; float:right;  margin: 5px; width: calc(100% - 10px);  border-radius:12px; padding: 30px 0; vertical-align: middle; text-align: center; background:rgba(0,0,0,0.04); line-height:13px;
+    span{font: 600 13px/13px var(--font-family); color:#999; margin:0 auto}
+    span.spanMini{font: 400 12px/12px var(--font-family); color:#999; margin:0 auto}
+    h3{font: 500 55px/55px var(--font-family); margin:0; padding:0; letter-spacing: -2px;}
+  }
+  .boxDash{min-width: calc(50% - 10px); margin: 5px;
+    h3{font: 500 45px/45px var(--font-family); margin:0; padding:0; letter-spacing: -2px;}
+  }
+  .boxDashFull{min-width: calc(100% - 10px); margin:5px}
+  
+
+
   .tabs {
     width: auto;
     padding: 10px 10px;

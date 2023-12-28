@@ -1,4 +1,28 @@
+function animateValue(obj, start, end, duration) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        obj.innerHTML = Math.floor(progress * (end - start) + start);
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    window.requestAnimationFrame(step);
+  }
+  const obj2 = document.querySelectorAll(".slowVal");
+  obj2.forEach((obj) => {
+    const endd2 = obj.textContent;
+    animateValue(obj, 0, endd2, 1500);
+  });
+
+
 $(document).ready(function(){
+
+
+   
+
+      
 
     var start = moment().subtract(29, 'days');
     var end = moment();

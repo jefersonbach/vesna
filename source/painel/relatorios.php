@@ -84,10 +84,7 @@ if($_POST){
 					?>
 				</td>
 				<td>
-				<?
-					echo $lis['periodo'];
-					
-					?>
+					<?=$lis['periodo'];?>
 				</td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px"><strong><?=$lis['de']?></strong></div></td>
 				<td style="text-align:center;padding:0">

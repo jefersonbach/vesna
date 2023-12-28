@@ -88,15 +88,10 @@
                 </div>
             </div>
 <!--
-
-<canvas id="myChart" width="300" height="300px" style="max-width:250px; margin:20px;"></canvas>
- 
            -->
+
+            <div class="controle"></div>
             <?
-
-
-
- 
 $de = str_replace("/", "-", $_GET['de']);
 $de = implode('-',array_reverse(explode('-',$de)));
 $de = explode('-',$de);
@@ -117,17 +112,20 @@ if($_GET['afiliado'] and $_GET['afiliado'] != 'meu' and $_GET['afiliado'] != 'to
     foreach($af as $afiliado){
         if($afiliado['clean_url'] == $_GET['afiliado']){
             $afilia[] = $afiliado['id'];
+            $afiliaData[] = $afiliado['atualizado'];
         }
     }
     
 
 }elseif($_GET['afiliado'] == 'meu'){
     $afilia[] =  $empe[0]['id'];
+    $afiliaData[] = $empe[0]['atualizado'];
    
 }elseif($_GET['afiliado'] == 'todos' or $_GET['afiliado'] == ''){
     $afilia[] =  $empe[0]['id'];
     foreach($af as $afiliado){
         $afilia[] = $afiliado['id'];
+        $afiliaData[] = $afiliado['atualizado'];
     }
    
 }
@@ -152,6 +150,10 @@ foreach($afilia as $parcei){
     $casa = $banco->lista('casas', "id = '".$pgGet[0]."'");
     $ppa = $banco->lista('parceiros', "id = '".$parcei."'");
     $regras = unserialize($ppa[0]['regras']);
+
+
+
+    
 
 
     $dePt = $_GET['de'];
@@ -306,15 +308,11 @@ $periodo = implode('/',array_reverse(explode('-',$periodo)));
                                         $x = 0;
                                         foreach($regras[$pgGet[0]] as $coll => $rgcasa){
                                             $celula = $colName;
-                                            
                                             //echo $i;
                                             if($rgcasa['coluna'] == $i){
-
                                                 //echo '<pre>';
                                                 //print_r($rgcasa);
                                                 //echo '</pre>';
-
-
                                                 if($rgcasa['acao'] == '+'){
                                                     if($rgcasa['tipo'] == 'numero'){
                                                         $celula = $cols[$i] + $rgcasa['valor'];
@@ -612,7 +610,16 @@ $periodo = implode('/',array_reverse(explode('-',$periodo)));
 
 <?  
 }
-} ?>
+} 
+
+
+foreach($afiliaData as $maiorD){
+    if( strtotime($maiorD) > strtotime($maiorData)){
+        $maiorData = $maiorD;
+    }
+}
+
+?>
 
         </div>
         <div style="background: #333; border-radius:5px; margin: -2px auto 50px; width:38%; height:3px">
@@ -630,7 +637,6 @@ if($_GET['afiliado'] == 'todos'){
 
 
 <?
-/* 
 if($_GET['afiliado'] == 'todos'){?>
             <script>
     var ctx = document.getElementById('myChart').getContext('2d');
@@ -675,6 +681,6 @@ if($_GET['afiliado'] == 'todos'){?>
 
 
 </script>
-<?}*/?>
+<?}?>
 
  

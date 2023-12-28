@@ -99,30 +99,20 @@ if($_POST['casas']){
                 if($data[2] == ''){
                     $data = explode(',', $data[0]);
                 }
-echo '<pre>';
-print_r($data);
-echo '</pre>';
+                echo '<pre>';
+                print_r($data);
+                echo '</pre>';
 
                 //echo "<p>------------". $data[0]." asd campos na linha $row: <br /></p>\n";
 
-              
-
                 $periodo = str_replace("/", "-", $periodo);
-$periodo = implode('-',array_reverse(explode('-',$periodo)));
-$periodoTime = strtotime($periodo);
-
-
+                $periodo = implode('-',array_reverse(explode('-',$periodo)));
+                $periodoTime = strtotime($periodo);
                 //echo '<h3>'.$_POST['de'].' - '.$_POST['ate'].'</h3>';
                 //echo '<h3>--------- '.$periodo.' - '.$periodoTime.'</h3>';
 
-                
-
-
+            
                 $pp['idParceiro'] = $data[$casa[0]['colunaId']];
-
-
-
-                
                 $prodsa = $rProd->lista('parceiros','','','nome asc');
                 foreach($prodsa as $pais){
                     $reg = unserialize($pais['regras']);
@@ -136,12 +126,8 @@ $periodoTime = strtotime($periodo);
 
                         }
                     }
-                    
-
-                   
                 } 
             
-
                //echo '<pre>';
                 //print_r($idPart);
                // echo '</pre>';
@@ -172,10 +158,7 @@ $periodoTime = strtotime($periodo);
 
                 echo '<pre>'; print_r($pp); echo '</pre>';
                 //print_r($pp);
-
-//die;
-
-
+                //die;
                 echo $grava = $rProd->cadastro($pp, 'relatorios');
 /* 
                 $antigos = $rProd->lista('relatorios', "empresa = '".$_POST['empresa']."' and deTime >= '".$deTime."' and ateTime <= '".$ateTime."'");
@@ -189,12 +172,8 @@ $periodoTime = strtotime($periodo);
                     print_r($antigos);
                 }*/
 
-
-                
-
                 //echo 'INSERT INTO relatorios (empresa, de, ate, deTime, ateTime, brand, visits, opens, new-active-depositors, new-locked, deal-currency, casino-net-revenue) VALUES '.$qquer.';';
-
-					  //mysqli_query($rProd->getConnection(),'INSERT INTO relatorios (codigo, preco) VALUES '.$qquer.' ON DUPLICATE KEY UPDATE preco=VALUES(preco);');
+                //mysqli_query($rProd->getConnection(),'INSERT INTO relatorios (codigo, preco) VALUES '.$qquer.' ON DUPLICATE KEY UPDATE preco=VALUES(preco);');
             }
            
                 if($grava == 'sim'){
