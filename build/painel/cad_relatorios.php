@@ -35,8 +35,9 @@ if($_POST['casas']){
 
     $casa = $rProd->lista('casas', 'id = '.$_POST['casas'].'');
 
-
     $casa[0]['colunaData'] = $casa[0]['colunaData'] - 1;
+    
+
     if($_POST['periodo']){
         $periodo = $_POST['periodo'];
     }else{
@@ -111,8 +112,12 @@ if($_POST['casas']){
                 //echo '<h3>'.$_POST['de'].' - '.$_POST['ate'].'</h3>';
                 //echo '<h3>--------- '.$periodo.' - '.$periodoTime.'</h3>';
 
-            
-                $pp['idParceiro'] = $data[$casa[0]['colunaId']];
+                if($_POST['empresa']){
+                    $pp['idParceiro'] = $_POST['empresa'];
+                }else{
+                    $pp['idParceiro'] = $data[$casa[0]['colunaId']];
+                }
+                
                 $prodsa = $rProd->lista('parceiros','','','nome asc');
                 foreach($prodsa as $pais){
                     $reg = unserialize($pais['regras']);
@@ -220,7 +225,7 @@ if($_POST['casas']){
                 <div class="alignCenter">
                     <label>
            				<strong>Casa</strong>
-                    	<select name="casas">
+                    	<select name="casas" id="casaSel">
                         	<option value="" style="color:#777; padding:5px 5px 5px 20px"> <strong><i>-- Nenhuma --</i></strong> </option>
 							<? 
                             	$cs = $rProd->lista('casas');
@@ -233,22 +238,13 @@ if($_POST['casas']){
                         </select>
                    	</label>
                     <div class="controle">&nbsp;</div>
+                    <div id="loadCol"></div>
+
+                    
+
+
 <!--
-                    <label>
-           				<strong>Empresa</strong>
-                    	<select name="empresa">
-                        	<option value="" style="color:#777; padding:5px 5px 5px 20px"> <strong><i>-- Nenhuma --</i></strong> </option>
-							<? 
-                            	$prodsa = $rProd->lista('parceiros','','','nome asc');
-                                foreach($prodsa as $pais){
-                                    ?>
-                                    <option value="<?=$pais['id']?>"  <? if($empresa == $pais['id']){echo 'selected';}?> style="color:#333; padding:5px 5px 5px 20px"><?=$pais['nome']?></option>
-                                    <?
-								} 
-							?>
-                        </select>
-                   	</label>
-                    <div class="controle">&nbsp;</div>
+                    
 
                     <label><strong>Período</strong></label>    
                     <label><input type="text" class="span2" name="periodo" value="<?=$periodo?>" placeholder="10/05/2023" /></label>           
@@ -294,3 +290,27 @@ $(document).ready(function(){
 <? include('includes/rodape.php') ?>
     
   
+
+
+<script>
+
+
+$(document).ready(function(){
+ 
+    $('#casaSel').change(function(){
+	    
+        var idCasa = $(this).val();
+        $.ajax({
+            url: 'identificaCasaRelatorio.php',
+            type: 'post',
+            data: {casa:idCasa},
+            success: function(response){
+                $('#loadCol').html(response);
+            }
+        });
+    });
+ 
+});
+
+
+</script>
