@@ -15,7 +15,7 @@
                 </div>
             </form>
 
-            <a href="mailto:partners@vesnapubli.com?subject=Esqueci minha senha!&body=Gostaria de recuperar a minha senha." style="font-size:12px; text-decoration:none">Esqueceu sua senha?</a>
+            <a href="mailto:partners@vesnapubli.com?subject=Esqueciminhasenha" style="font-size:12px; text-decoration:none">Esqueceu sua senha?</a>
         </div>
         <br />
 

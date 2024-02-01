@@ -1,10 +1,11 @@
 <?
+
 include('includes/topo.php');
 $nPag = explode('/',$_SERVER['PHP_SELF']);
 $p = substr($nPag[2],0,-4);
+
 setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
 date_default_timezone_set('America/Sao_Paulo');
-
 
 if($_POST){
 	$post['clean_url'] = $resulSeo->clean_url($_POST['nome']);
@@ -58,7 +59,7 @@ if($_POST){
                 <tr>
                 	<td style="padding:0 !important" width="5px"></td>
                     <td style="padding:10px 10px !important;"><a href="?ordem=nome&a=<? if($_GET['a'] == 'ASC'){echo 'DESC';}else{echo 'ASC';}?>"><span class="tituTab" style="float:left">Nome da Empresa</span><? if($_GET['ordem'] == 'nome' and $_GET['a'] == 'ASC'){echo '<span style="float:left; margin:6px 0 0 20px" class="icon-chevron-down icon-white">&nbsp;</span>';}elseif($_GET['ordem'] == 'nome' and $_GET['a'] == 'DESC'){echo '<span style="float:left; margin:6px 0 0 20px" class="icon-chevron-up icon-white">&nbsp;</span>';}?></a></td>
-                	<td style="padding:10px 10px !important" width="70px">Regras</td>
+                	<td style="padding:10px 10px !important" width="70px">Relatórios</td>
 					<td style="padding:10px 10px !important" width="70px">Usuários</td>
 					
 					<td style="padding:10px 10px !important; text-align:center" width="300px"><a href="?ordem=titulo&a=<? if($_GET['a'] == 'ASC'){echo 'DESC';}else{echo 'ASC';}?>"><span style="float:left" class="tituTab">Última atualização de relatório</span><? if($_GET['ordem'] == 'nome' and $_GET['a'] == 'ASC'){echo '<span style="float:left; margin:6px 0 0 20px" class="icon-chevron-down icon-white">&nbsp;</span>';}elseif($_GET['ordem'] == 'titulo	' and $_GET['a'] == 'DESC'){echo '<span style="float:left; margin:6px 0 0 20px" class="icon-chevron-up icon-white">&nbsp;</span>';}?></a></td>
@@ -72,7 +73,7 @@ if($_POST){
 			<tr>
 				<td style="padding:0 !important" width="5px"></td>
 				<td style="padding:10px 30px !important;"><span class="tituTab">Nome da empresa</span></td>
-				<td style="padding:10px 10px !important" width="70px">Regras</td>
+				<td style="padding:10px 10px !important" width="70px">Relatórios</td>
 				<td style="padding:10px 10px !important" width="70px">Usuários</td>
 				<td style="padding:10px 30px !important; text-align:center" width="260px"><span class="tituTab">Última atual. de relatório</span></td>
 				<td style="padding:10px 30px !important; text-align:center" width="80px"></td>
@@ -81,7 +82,7 @@ if($_POST){
 		
 		<tbody>
 		<? 
-			$prods = $resulSeo->lista($p,"afiliado = 'Nao'");
+			$prods = $resulSeo->lista($p, "afiliado = 'Nao' OR pai is NULL",'',' nome ASC');
 			foreach($prods as $lis){
 		?>
 			<tr style="border:4px solid #fff; background:#eee; padding:10px 0 !important; ">
@@ -89,18 +90,11 @@ if($_POST){
 				<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px"><strong><?=$lis['nome']?></strong></div></td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px">
 				<strong>
-						<? 
-						if($lis['col3']){
-							echo '3';
-						}elseif($lis['col2']){
-							echo '2';
-						}elseif($lis['col1']){
-							echo '1';
-						}elseif(!$lis['col1']){
-							echo '0';
-						}
-						?>	
-
+				<? $relTotal = $rProd->lista('relatorios', "empresa = '".$lis['id']."'");
+					if($relTotal == 'erro'){echo '0';}else{
+						echo count($relTotal);
+					}
+					?>
 					</strong>
 				</div></td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px">
@@ -114,7 +108,7 @@ if($_POST){
 				</div></td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px"><span>
 					<? if($lis['atualizado']){
-						echo strftime('%A, %d de %B de %Y', strtotime($lis['atualizado']));
+						echo utf8_encode(strftime('%A, %d de %B de %Y', strtotime($lis['atualizado'])));
 					}else{
 						echo 'Sem atualizacoes';
 					}?></span></div></td>
@@ -139,29 +133,22 @@ if($_POST){
 						<a href="<? if($p == 'news'){echo 'newsletter';}else{echo $p;}?>.php?excluir=<?=$lis['id']?>&table=<?=$p?>&familia=<?=$_GET['familia']?>" class="btn btn-primary">Confirmar</a>
 					</div>
 				</div>
-			<? 
-				$afi = $resulSeo->lista($p,"pai IS NOT NULL");
-				$pp = '';
+		<? 
+			$afi = $resulSeo->lista($p, "pai = '".$lis['id']."'",'',' nome ASC');
+			$pp = '';
+			if($afi != 'erro'){
 				foreach($afi as $afiliado){
-					$pp = explode(',',$afiliado['pai']);
-					if(in_array($lis['id'], $pp)){
-			?>
+		?>
 			<tr style="border:4px solid #fff; background:#eee; padding:10px 0 !important; ">
 				<td style="background:<? if($afiliado['ativo']=='Nao'){echo '#a80000';}else{echo '#038800';}?> !important; padding:0"></td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; line-height: 16px; padding: 10px 10px 10px 40px; opacity:0.7"><strong><?=$afiliado['nome']?></strong></div></td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px">
 				<strong>
-						<? 
-						if($afiliado['col3']){
-							echo '3';
-						}elseif($afiliado['col2']){
-							echo '2';
-						}elseif($afiliado['col1']){
-							echo '1';
-						}elseif(!$afiliado['col1']){
-							echo '0';
-						}
-						?>	
+				<? $relTotal = $rProd->lista('relatorios', "empresa = '".$afiliado['id']."'");
+					if($relTotal == 'erro'){echo '0';}else{
+						echo count($relTotal);
+					}
+					?>
 					</strong>
 				</div></td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px">
@@ -175,7 +162,7 @@ if($_POST){
 				</div></td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px"><span>
 					<? if($afiliado['atualizado']){
-						echo strftime('%A, %d de %B de %Y', strtotime($afiliado['atualizado']));
+						echo utf8_encode(strftime('%A, %d de %B de %Y', strtotime($afiliado['atualizado'])));
 					}else{
 						echo 'Sem atualizacoes';
 					}?>
@@ -203,29 +190,22 @@ if($_POST){
 				</div>
 			</tr>
 
-			<? 
-				$afi2 = $resulSeo->lista($p,"pai IS NOT NULL");
-				$pp2 = '';
+		<? 
+			$afi2 = $resulSeo->lista($p, "pai = '".$afiliado['id']."'",'',' nome ASC');
+			$pp2 = '';
+			if($afi2 != 'erro'){
 				foreach($afi2 as $afiliado2){
-					$pp2 = explode(',',$afiliado2['pai']);
-					if(in_array($afiliado['id'], $pp2)){
-			?>
+		?>
 			<tr style="border:4px solid #fff; background:#eee; padding:10px 0 !important; ">
 			<td style="background:<? if($afiliado2['ativo']=='Nao'){echo '#a80000';}else{echo '#038800';}?> !important; padding:0"></td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; line-height: 16px; padding: 10px 10px 10px 80px; opacity:0.7"><strong><?=$afiliado2['nome']?></strong></div></td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px">
 				<strong>
-						<? 
-						if($afiliado2['col3']){
-							echo '3';
-						}elseif($afiliado2['col2']){
-							echo '2';
-						}elseif($afiliado2['col1']){
-							echo '1';
-						}elseif(!$afiliado2['col1']){
-							echo '0';
-						}
-						?>	
+				<? $relTotal = $rProd->lista('relatorios', "empresa = '".$afiliado2['id']."'");
+					if($relTotal == 'erro'){echo '0';}else{
+						echo count($relTotal);
+					}
+					?>
 					</strong>
 				</div></td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px">
@@ -239,7 +219,7 @@ if($_POST){
 				</div></td>
 				<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px"><span>
 					<? if($afiliado2['atualizado']){
-						echo strftime('%A, %d de %B de %Y', strtotime($afiliado2['atualizado']));
+						echo utf8_encode(strftime('%A, %d de %B de %Y', strtotime($afiliado2['atualizado'])));
 					}else{
 						echo 'Sem atualizacoes';
 					}?>
@@ -266,29 +246,21 @@ if($_POST){
 					</div>
 				</div>
 			</tr>
-			<? 
-				$afi3 = $resulSeo->lista($p,"pai IS NOT NULL");
-				$pp3 = '';
+		<? 
+			$afi3 = $resulSeo->lista($p, "pai = '".$afiliado2['id']."'",'',' nome ASC');
+			if($afi3 != 'erro'){
 				foreach($afi3 as $afiliado3){
-					$pp3 = explode(',',$afiliado3['pai']);
-					if(in_array($afiliado2['id'], $pp3)){
-			?>
+		?>
 		<tr style="border:4px solid #fff; background:#eee; padding:10px 0 !important; ">
 			<td style="background:<? if($afiliado3['ativo']=='Sim'){echo '#038800';}else{echo '#a80000';}?> !important; padding:0"></td>
 			<td style="padding:0"><div style="border-right:1px solid #ccc; line-height: 16px; padding: 10px 10px 10px 120px; opacity:0.7"><strong><?=$afiliado3['nome']?></strong></div></td>
 			<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px">
 			<strong>
-					<? 
-					if($afiliado3['col3']){
-						echo '3';
-					}elseif($afiliado3['col2']){
-						echo '2';
-					}elseif($afiliado3['col1']){
-						echo '1';
-					}elseif(!$afiliado3['col1']){
-						echo '0';
+			<? $relTotal = $rProd->lista('relatorios', "empresa = '".$afiliado3['id']."'");
+					if($relTotal == 'erro'){echo '0';}else{
+						echo count($relTotal);
 					}
-					?>	
+					?>
 				</strong>
 			</div></td>
 			<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px">
@@ -302,7 +274,7 @@ if($_POST){
 			</div></td>
 			<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px"><span>
 				<? if($afiliado3['atualizado']){
-					echo strftime('%A, %d de %B de %Y', strtotime($afiliado3['atualizado']));
+					echo utf8_encode(strftime('%A, %d de %B de %Y', strtotime($afiliado3['atualizado'])));
 				}else{
 					echo 'Sem atualizacoes';
 				}?>
@@ -332,28 +304,20 @@ if($_POST){
 
 
 		<? 
-				$afi4 = $resulSeo->lista($p,"pai IS NOT NULL");
-				$pp4 = '';
+			$afi4 = $resulSeo->lista($p, "pai = '".$afiliado3['id']."'",'',' nome ASC');
+			if($afi4 != 'erro'){
 				foreach($afi4 as $afiliado4){
-					$pp4 = explode(',',$afiliado4['pai']);
-					if(in_array($afiliado3['id'], $pp4)){
-			?>
+		?>
 		<tr style="border:4px solid #fff; background:#eee; padding:10px 0 !important; ">
 			<td style="background:<? if($afiliado4['ativo']=='Sim'){echo '#038800';}else{echo '#a80000';}?> !important; padding:0"></td>
 			<td style="padding:0"><div style="border-right:1px solid #ccc; line-height: 16px; padding: 10px 10px 10px 160px; opacity:0.7"><strong><?=$afiliado4['nome']?></strong></div></td>
 			<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px">
 			<strong>
-					<? 
-					if($afiliado4['col3']){
-						echo '3';
-					}elseif($afiliado4['col2']){
-						echo '2';
-					}elseif($afiliado4['col1']){
-						echo '1';
-					}elseif(!$afiliado4['col1']){
-						echo '0';
+				<? $relTotal = $rProd->lista('relatorios', "empresa = '".$afiliado4['id']."'");
+					if($relTotal == 'erro'){echo '0';}else{
+						echo count($relTotal);
 					}
-					?>	
+					?>
 				</strong>
 			</div></td>
 			<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px">
@@ -367,7 +331,7 @@ if($_POST){
 			</div></td>
 			<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px"><span>
 				<? if($afiliado4['atualizado']){
-					echo strftime('%A, %d de %B de %Y', strtotime($afiliado4['atualizado']));
+					echo utf8_encode(strftime('%A, %d de %B de %Y', strtotime($afiliado4['atualizado'])));
 				}else{
 					echo 'Sem atualizacoes';
 				}?>
@@ -397,28 +361,20 @@ if($_POST){
 
 
 		<? 
-				$afi5 = $resulSeo->lista($p,"pai IS NOT NULL");
-				$pp5 = '';
+			$afi5 = $resulSeo->lista($p, "pai = '".$afiliado4['id']."'",'',' nome ASC');
+			if($afi5 != 'erro'){
 				foreach($afi5 as $afiliado5){
-					$pp5 = explode(',',$afiliado5['pai']);
-					if(in_array($afiliado4['id'], $pp5)){
 			?>
 		<tr style="border:4px solid #fff; background:#eee; padding:10px 0 !important; ">
 			<td style="background:<? if($afiliado5['ativo']=='Sim'){echo '#038800';}else{echo '#a80000';}?> !important; padding:0"></td>
 			<td style="padding:0"><div style="border-right:1px solid #ccc; line-height: 16px; padding: 10px 10px 10px 200px; opacity:0.7"><strong><?=$afiliado5['nome']?></strong></div></td>
 			<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px">
 			<strong>
-					<? 
-					if($afiliado5['col3']){
-						echo '3';
-					}elseif($afiliado5['col2']){
-						echo '2';
-					}elseif($afiliado5['col1']){
-						echo '1';
-					}elseif(!$afiliado5['col1']){
-						echo '0';
+			<? $relTotal = $rProd->lista('relatorios', "empresa = '".$afiliado5['id']."'");
+					if($relTotal == 'erro'){echo '0';}else{
+						echo count($relTotal);
 					}
-					?>	
+					?>
 				</strong>
 			</div></td>
 			<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px">
@@ -432,7 +388,7 @@ if($_POST){
 			</div></td>
 			<td style="padding:0"><div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px"><span>
 				<? if($afiliado5['atualizado']){
-					echo strftime('%A, %d de %B de %Y', strtotime($afiliado5['atualizado']));
+					echo utf8_encode(strftime('%A, %d de %B de %Y',strtotime($afiliado5['atualizado'])));
 				}else{
 					echo 'Sem atualizacoes';
 				}?>

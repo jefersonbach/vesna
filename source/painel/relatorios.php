@@ -45,67 +45,13 @@ $prodss = $resulSeo->lista($p, '', '', '', ' limit 40');
 	<div class="controle">&nbsp;</div>
 </div>
 <div id="contentLists">
-	<div class="caixa-conteudo" style="margin:0px 0px 0 0 !important; color:#fff; top:90px; right:0px" data-spy="affix"
-		data-offset-top="135" affix-top="0">
-		<table class="table table-striped" width="100%" cellpadding="0" style="margin-top:0 !important">
-			<thead style="background:#444 url(images/bgTable.png); padding:40px 30px !important; color:#fff">
-				<tr>
-					<td style="padding:0 !important" width="5px"></td>
-					<td style="padding:10px 30px !important;"><a
-							href="?ordem=nome&a=<? if ($_GET['a'] == 'ASC') {
-								echo 'DESC';
-							} else {
-								echo 'ASC';
-							} ?>"><span
-								class="tituTab" style="float:left">Parceiro </span>
-							<? if ($_GET['ordem'] == 'nome' and $_GET['a'] == 'ASC') {
-								echo '<span style="float:left; margin:6px 0 0 20px" class="icon-chevron-down icon-white">&nbsp;</span>';
-							} elseif ($_GET['ordem'] == 'nome' and $_GET['a'] == 'DESC') {
-								echo '<span style="float:left; margin:6px 0 0 20px" class="icon-chevron-up icon-white">&nbsp;</span>';
-							} ?>
-						</a></td>
-					<td style="padding:10px 30px !important; text-align:center" width="15%"><a
-							href="?ordem=titulo&a=<? if ($_GET['a'] == 'ASC') {
-								echo 'DESC';
-							} else {
-								echo 'ASC';
-							} ?>"><span
-								style="float:left" class="tituTab">Casa</span>
-							<? if ($_GET['ordem'] == 'nome' and $_GET['a'] == 'ASC') {
-								echo '<span style="float:left; margin:6px 0 0 20px" class="icon-chevron-down icon-white">&nbsp;</span>';
-							} elseif ($_GET['ordem'] == 'titulo	' and $_GET['a'] == 'DESC') {
-								echo '<span style="float:left; margin:6px 0 0 20px" class="icon-chevron-up icon-white">&nbsp;</span>';
-							} ?>
-						</a></td>
-					<td style="padding:10px 30px !important; text-align:center" width="15%"><a
-							href="?ordem=titulo&a=<? if ($_GET['a'] == 'ASC') {
-								echo 'DESC';
-							} else {
-								echo 'ASC';
-							} ?>"><span
-								style="float:left" class="tituTab">Período</span>
-							<? if ($_GET['ordem'] == 'nome' and $_GET['a'] == 'ASC') {
-								echo '<span style="float:left; margin:6px 0 0 20px" class="icon-chevron-down icon-white">&nbsp;</span>';
-							} elseif ($_GET['ordem'] == 'titulo	' and $_GET['a'] == 'DESC') {
-								echo '<span style="float:left; margin:6px 0 0 20px" class="icon-chevron-up icon-white">&nbsp;</span>';
-							} ?>
-						</a></td>
-
-					<td style="padding:10px 30px !important; text-align:center" width="10%"></td>
-				</tr>
-			</thead>
-		</table>
-	</div>
 	<table class="table table-striped" width="100%" style="margin-top:30px" cellpadding="0">
-		<thead style="background: url(images/bgTable.png); padding:40px 30px !important; color:#fff">
+		<thead style="background: #222; padding:40px 30px !important; color:#fff">
 			<tr>
 				<td style="padding:0 !important" width="5px"></td>
-				
-				<td style="padding:10px 30px !important;"><span class="tituTab">Casa</span></td>
-				<td style="padding:10px 30px !important; text-align:center" width="15%"><span
-						class="tituTab">Parceiro</span></td>
-				<td style="padding:10px 30px !important; text-align:center" width="35%"><span
-						class="tituTab">Período</span></td>
+				<td style="padding:10px 10px !important; text-align:left" width="20%"><span class="tituTab">Parceiro</span></td>
+				<td style="padding:10px 30px !important;" width="15%"><span class="tituTab">Casa</span></td>
+				<td style="padding:10px 30px !important; text-align:center"><span class="tituTab">Período</span></td>
 				<td style="padding:10px 30px !important; text-align:center" width="10%"></td>
 			</tr>
 		</thead>
@@ -116,40 +62,32 @@ $prodss = $resulSeo->lista($p, '', '', '', ' limit 40');
 				$empe = $resulSeo->lista('parceiros', "id = '" . $lis['empresa'] . "'");
 				$cas = '';
 				$cas = $resulSeo->lista('casas', "id = '" . $lis['casa'] . "'");
+				$periodo = str_replace("/", "-", $lis['periodo']);
+				$periodo = implode('/',array_reverse(explode('-',$periodo)));
 				?>
 				<tr class="item" style="border:4px solid #fff; background:#eee; padding:10px 0 !important; ">
 					<td
-						style="<? if($empe and $empe[0]['nome'] != 'e'){echo 'background:#038800';
+						style=" width:5px; <? if($empe and $empe[0]['nome'] != 'e'){echo 'background:#038800';
 						} else {
 							echo 'background:#a80000';
 						} ?> !important; padding:0">
 					</td>
 					<td>
-						<? ?>
 						<a href="cad_parceiros.php?editar=<?=$empe[0]['id']?>">
 							<?=$empe[0]['nome']?>
 						</a>
 					</td>
 					<td>
-						<?
-							$periodo = str_replace("/", "-", $lis['periodo']);
-							echo $periodo = implode('/',array_reverse(explode('-',$periodo)));?>
-					</td>
-					
-					<td>
-						<? 
-						
-						?>
 						<a href="cad_casas.php?editar=<?=$cas[0]['id']?>">
-							<img src="./arquivos/casas/<?=$cas[0]['img']?>" style="margin:0px 0 20px 20px; width:100px" alt="<?=$cas[0]['nome']?>" />
+							<div style="width: 100px; height: 25px; background: #f5f5f5 url(https://vesna.partners/painel/arquivos/casas/<?=$cas[0]['img']?>) center center no-repeat; background-size: 80% auto">
+
+							</div>
 						</a>
 					</td>
-					
-					<td style="padding:0">
-						<div style="border-right:1px solid #ccc; height:40px; line-height:40px; padding:0 10px"><strong>
-								<?= $lis['de'] ?>
-							</strong></div>
+					<td>
+						<?=$periodo?>
 					</td>
+					
 					<td style="text-align:center;padding:0">
 						<div style="border-left:1px solid #fff">
 							<div

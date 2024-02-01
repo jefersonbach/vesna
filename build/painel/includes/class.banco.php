@@ -52,7 +52,7 @@ function mandaEmail($para, $nomePara, $assunto, $mensagem){
 		$mail->SMTPDebug = false;
 		
 		$mail->From       = "jeferson@agtp.com.br";
-		$mail->FromName   = "Vesna";	
+		$mail->FromName   = "Vesna Partners";	
 		
 		$mail->MsgHTML($mensagem);
 		$mail->Subject    = '=?UTF-8?B?'.base64_encode($assunto).'?=';

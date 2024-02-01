@@ -21,7 +21,7 @@
                     <input class="fields" type="text" class="input" name="celular"  placeholder="(xx) 9 9999-9999 *" required  autocomplete="off" />
                 </label>
                 <div class="btn-wrap">
-                    <input type="submit" class="btn-form btn-login" value="Criar conta" name="criar conta" />
+                    <input type="submit" class="btn-form btn-login" value="Criar conta" name="criarConta" />
                 </div>
             </form>
 

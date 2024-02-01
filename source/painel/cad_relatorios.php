@@ -5,55 +5,35 @@ ini_set('pcre.backtrack_limit', '99999998576');
 set_time_limit(0);
 include('includes/topo.php'); 
 
-function detectDelimiter($csvFile)
-{
+function detectDelimiter($csvFile){
     $delimiters = [";" => 0, "," => 0, "\t" => 0, "|" => 0];
-
     $handle = fopen($csvFile, "r");
     $firstLine = fgets($handle);
     fclose($handle); 
     foreach ($delimiters as $delimiter => &$count) {
         $count = count(str_getcsv($firstLine, $delimiter));
     }
-
     return array_search(max($delimiters), $delimiters);
 }
-
-
 
 $nPag = explode('/',$_SERVER['PHP_SELF']);
 $p = substr($nPag[2],4,-4);
 
+$_SESSION['caminho'] = '../../arquivos/relatorios/';
 $_SESSION['pagina'] = $p;
 if($_SESSION['id_ficha'] == ""){
 	 $_SESSION['id_ficha'] = md5(uniqid(rand(), true));
 }
-$_SESSION['caminho'] = '../../arquivos/relatorios/';
-
 
 if($_POST['casas']){
-
     $casa = $rProd->lista('casas', 'id = '.$_POST['casas'].'');
+    //$casa[0]['colunaData'] = $casa[0]['colunaData'] - 1;
 
-    $casa[0]['colunaData'] = $casa[0]['colunaData'] - 1;
     
-
-    if($_POST['periodo']){
-        $periodo = $_POST['periodo'];
-    }else{
-        $periodo = $data[$casa[0]['colunaData']];
-    }
-
-
-    $nome = $periodo.'_'.$casa[0]['nome'];
-	
+    $nome = date('today').'_'.$casa[0]['nome'];
 	$new_file_name = $rProd->clean_url($nome).'.csv';
 	
 	if(move_uploaded_file($_FILES['arquivo']['tmp_name'], 'arquivos/relatorios/'.$new_file_name)){
-		$message = 'Congratulations!  Your file was accepted.';
-
-        
-
 		 // Abre o Arquvio no Modo r (para leitura)
 		$arquivo = fopen ('arquivos/relatorios/'.$new_file_name, 'r');
 		$ic = 0;
@@ -62,15 +42,8 @@ if($_POST['casas']){
 
         $linha = fgets($arquivo, 1024);
         $dados = explode(';', $linha);
-        
         $dados = explode(',', $dados[0]);
-        //print_r($dados);
-		 // Lê o conteúdo do arquivo
-
-         
-         
-//echo $casa[0]['brand'];
-        //die;
+        
         $casa[0]['brand'] = $casa[0]['brand'] - 1;
         $casa[0]['visits'] = $casa[0]['visits'] - 1;
         $casa[0]['NewActiveDepositors'] = $casa[0]['NewActiveDepositors'] - 1;
@@ -83,12 +56,8 @@ if($_POST['casas']){
         $casa[0]['CPAQualified'] = $casa[0]['CPAQualified'] - 1;
         $casa[0]['CPAEarnings'] = $casa[0]['CPAEarnings'] - 1;
         $casa[0]['TotalEarnings'] = $casa[0]['TotalEarnings'] - 1;
-        //$casa[0]['TotalEarnings'] = $casa[0]['TotalEarnings'] - 1;
-
         $casa[0]['colunaId'] = $casa[0]['colunaId'] - 1;
        
-        
-
 		 while(!feof($arquivo)){
             //echo '<br />'; echo '<br />';
 			  // Pega os dados da linha
@@ -100,47 +69,41 @@ if($_POST['casas']){
                 if($data[2] == ''){
                     $data = explode(',', $data[0]);
                 }
-                echo '<pre>';
-                print_r($data);
-                echo '</pre>';
+                //echo '<pre>';
+                //print_r($data);
+                //echo '</pre>';
 
                 //echo "<p>------------". $data[0]." asd campos na linha $row: <br /></p>\n";
 
-                $periodo = str_replace("/", "-", $periodo);
-                $periodo = implode('-',array_reverse(explode('-',$periodo)));
-                $periodoTime = strtotime($periodo);
-                //echo '<h3>'.$_POST['de'].' - '.$_POST['ate'].'</h3>';
-                //echo '<h3>--------- '.$periodo.' - '.$periodoTime.'</h3>';
-
-                if($_POST['empresa']){
-                    $pp['idParceiro'] = $_POST['empresa'];
+                $periodo = $_POST['periodo'];
+                if(!$_POST['periodo']){
+                    $periodo = $data[$casa[0]['colunaData'] - 1];
                 }else{
+                    $periodo = str_replace("/", "-", $periodo);
+                    $periodo = implode('-',array_reverse(explode('-',$periodo)));
+                }
+                
+                $periodo = str_replace(' ','',$periodo);
+                $periodoTime = strtotime($periodo);
+
+                $pp['idParceiro'] = $_POST['empresa'];
+                if(!$_POST['empresa']){
                     $pp['idParceiro'] = $data[$casa[0]['colunaId']];
                 }
                 
                 $prodsa = $rProd->lista('parceiros','','','nome asc');
                 foreach($prodsa as $pais){
                     $reg = unserialize($pais['regras']);
-
                     foreach($reg as $idPart){
-                       
-
                         if($idPart['nomeIdentificador'] == $pp['idParceiro']){
-                            
                             $pp['empresa'] = $pais['id'];
-
                         }
                     }
                 } 
             
-               //echo '<pre>';
-                //print_r($idPart);
-               // echo '</pre>';
-
-                
                 $pp['casa'] = $_POST['casas'];
-                $pp['periodoTime'] = $data[$casa[0]['colunaData']];
-                $pp['periodo'] = $data[$casa[0]['colunaData']];
+                $pp['periodoTime'] = $periodo;
+                $pp['periodo'] = $periodo;
 
                 $pp['brand'] = $data[$casa[0]['brand']];
                 $pp['visits'] = $data[$casa[0]['visits']];
@@ -157,7 +120,7 @@ if($_POST['casas']){
                 $pp['TotalEarnings'] = $data[$casa[0]['TotalEarnings']];
 
                 
-                $pp['colData'] = $data[$casa[0]['colunaData']];
+                //$pp['colData'] = $data[$casa[0]['colunaData']];
 
                 $row++;
 
@@ -188,10 +151,10 @@ if($_POST['casas']){
                     echo 'SALVO COM SUCESSO';
                 }
                
-                die;
+                //die;
 
 	 	// Fecha arquivo aberto
-         fclose($arquivo);
+         //fclose($arquivo);
         
 	 	
 	}
