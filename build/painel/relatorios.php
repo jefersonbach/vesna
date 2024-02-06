@@ -73,9 +73,13 @@ $prodss = $resulSeo->lista($p, '', '', '', ' limit 40');
 						} ?> !important; padding:0">
 					</td>
 					<td>
-						<a href="cad_parceiros.php?editar=<?=$empe[0]['id']?>">
-							<?=$empe[0]['nome']?>
-						</a>
+						<? if($empe[0]['nome'] == 'e'){?>
+								Relatório sem parceiro
+						<?}else{?>
+							<a href="cad_parceiros.php?editar=<?=$empe[0]['id']?>">
+								<?=$empe[0]['nome']?>
+							</a>
+						<?}?>
 					</td>
 					<td>
 						<a href="cad_casas.php?editar=<?=$cas[0]['id']?>">
